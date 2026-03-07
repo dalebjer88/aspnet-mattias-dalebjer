@@ -1,0 +1,50 @@
+:root {
+    --c-white: #ffffff;
+    --c-black: #000000;
+    --c-page-bg: #f7f7f7;
+    --c-dark-bg: #131020;
+    --c-accent: #d6eb31;
+    --c-border-1: #e6e6e6;
+    --c-border-2: #d9d9d9;
+    --c-text-1: #080517;
+    --c-text-2: #27252f;
+    --c-text-3: #1b1f23;
+    --c-muted-1: #6f6f6f;
+    --c-muted-2: #575757;
+    --c-muted-3: #a7a7a7;
+    --c-error: #e50004;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+body {
+    background: var(--c-page-bg);
+    color: var(--c-text-1);
+}

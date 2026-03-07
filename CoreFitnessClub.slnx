@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CoreFitnessClub.Application/CoreFitnessClub.Application.csproj" />
+  <Project Path="CoreFitnessClub.Domain/CoreFitnessClub.Domain.csproj" />
+  <Project Path="CoreFitnessClub.Infrastructure/CoreFitnessClub.Infrastructure.csproj" />
+  <Project Path="CoreFitnessClub.Presentation.Mvc/CoreFitnessClub.Presentation.Mvc.csproj" />
+</Solution>
