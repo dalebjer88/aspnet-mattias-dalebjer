@@ -1,0 +1,56 @@
+﻿@import "tailwindcss";
+@import "./fonts.css";
+
+
+@theme {
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-dm-sans: "DM Sans", sans-serif;
+
+    --text-heading-1: clamp(2rem, 1.8rem + 1vw, 3rem);
+
+    --color-primary: #27252F;
+    --color-secondary: #080517;
+    --color-accent: #D6EB31;
+
+    --color-gray-light: #E6E6E6;
+    --color-gray: #6F6F6F;
+
+    --color-background: #f7f7f7;
+
+}
+
+
+
+
+@layer base {
+
+    body {
+        background-color: var(--color-background);
+    }
+
+    p {
+        font-family: var(--font-dm-sans);
+        font-size: var(--text-base);
+        font-weight: 400;
+        color: var(--color-gray);
+    }
+
+    h1 {
+        font-family: var(--font-poppins);
+        font-weight: 500;
+        font-size: var(--text-heading-1);
+    }
+
+    h2 {
+        font-family: var(--font-poppins);
+        font-weight: 600;
+        font-size: 1.125rem;
+    }
+
+    h3 {
+        font-family: var(--font-poppins);
+        font-weight: 800;
+        font-size: 1.25rem;
+    }
+}
