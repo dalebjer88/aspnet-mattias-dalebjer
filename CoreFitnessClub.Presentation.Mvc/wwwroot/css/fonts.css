@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("~/fonts/poppins/Poppins-Medium.ttf");
+  src: url("/fonts/poppins/Poppins-Medium.ttf");
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("~/fonts/poppins/Poppins-SemiBold.ttf");
+  src: url("/fonts/poppins/Poppins-SemiBold.ttf");
 }
 
 @font-face {
@@ -21,7 +21,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("~/fonts/poppins/Poppins-Bold.ttf");
+  src: url("/fonts/poppins/Poppins-Bold.ttf");
 }
 
 @font-face {
@@ -29,7 +29,7 @@
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url("~/fonts/poppins/Poppins-ExtraBold.ttf");
+  src: url("/fonts/poppins/Poppins-ExtraBold.ttf");
 }
 
 /* DM sans */
@@ -39,7 +39,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("~/fonts/dm-sans/DMSans-Regular.ttf");
+  src: url("/fonts/dm-sans/DMSans-Regular.ttf");
 }
 
 @font-face {
@@ -47,5 +47,5 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("~/fonts/dm-sans/DMSans-Medium.ttf");
+  src: url("/fonts/dm-sans/DMSans-Medium.ttf");
 }

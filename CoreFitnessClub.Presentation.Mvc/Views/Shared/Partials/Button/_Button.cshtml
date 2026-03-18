@@ -1,0 +1,27 @@
+﻿@model ButtonModel
+
+
+@if (Model.Url is null)
+{
+    <a asp-controller="@Model.Controller" asp-action="@Model.Action"
+           class="bg-accent py-4 px-7 self-center rounded-full font-semibold font-dm-sans inline-flex items-center gap-2">
+        @Model.Text
+        <svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+            d="M7.62504 6.53125C7.90629 6.8125 7.90629 7.3125 7.62504 7.59375L1.37504 13.8438C1.06254 14.125 0.593791 14.125 0.312541 13.8438C4.1008e-05 13.5625 4.1008e-05 13.0625 0.312541 12.7812L6.03129 7.0625L0.312541 1.34375C4.1008e-05 1.0625 4.1008e-05 0.5625 0.312541 0.28125C0.593791 0 1.06254 0 1.37504 0.28125L7.62504 6.53125Z"
+            fill="#27252F" />
+        </svg>
+    </a>
+}
+else
+{
+    <a href="@Model.Url"
+           class="bg-accent py-4 px-7 self-center rounded-full font-semibold font-dm-sans inline-flex items-center gap-2">
+        @Model.Text
+        <svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+            d="M7.62504 6.53125C7.90629 6.8125 7.90629 7.3125 7.62504 7.59375L1.37504 13.8438C1.06254 14.125 0.593791 14.125 0.312541 13.8438C4.1008e-05 13.5625 4.1008e-05 13.0625 0.312541 12.7812L6.03129 7.0625L0.312541 1.34375C4.1008e-05 1.0625 4.1008e-05 0.5625 0.312541 0.28125C0.593791 0 1.06254 0 1.37504 0.28125L7.62504 6.53125Z"
+            fill="#27252F" />
+        </svg>
+    </a>
+}

@@ -8,6 +8,8 @@
     --font-dm-sans: "DM Sans", sans-serif;
 
     --text-heading-1: clamp(2rem, 1.8rem + 1vw, 3rem);
+    --text-heading-2: clamp(2rem, 1.8rem + 1vw, 3rem);
+    --text-heading-3: 1.125rem;
 
     --color-primary: #27252F;
     --color-secondary: #080517;
@@ -19,8 +21,6 @@
     --color-background: #f7f7f7;
 
 }
-
-
 
 
 @layer base {
@@ -44,13 +44,42 @@
 
     h2 {
         font-family: var(--font-poppins);
-        font-weight: 600;
-        font-size: 1.125rem;
+        font-weight: 500;
+        font-size: var(--text-heading-2);
     }
 
     h3 {
         font-family: var(--font-poppins);
+        font-weight: 600;
+        font-size: var(--text-heading-3);
+    }
+
+    h4 {
+        font-family: var(--font-poppins);
         font-weight: 800;
         font-size: 1.25rem;
-    }
+    } 
+
+    .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: var(--color-primary);
+    color: white;
+    font-family: var(--font-dm-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.section-label-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+    flex-shrink: 0;
+}
 }

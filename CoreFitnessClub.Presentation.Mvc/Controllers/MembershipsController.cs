@@ -2,7 +2,7 @@
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers
 {
-    public class HomeController : Controller
+    public class MembershipsController : Controller
     {
         public IActionResult Index()
         {
