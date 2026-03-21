@@ -1,1 +1,11 @@
-﻿<a asp-controller="Memberships" asp-action="Index">Memberships</a>
+﻿@{
+    ViewData["Title"] = "Home";
+     ViewData["HideGlobalHeader"] = true;
+}
+
+<section class="px-4 py-4">
+    <div class="mx-auto max-w-472">
+        <partial name="~/Views/Shared/Partials/Header/_Header.cshtml" />
+        <partial name="~/Views/Shared/Partials/Hero/_HeroSection.cshtml" />
+    </div>
+</section>

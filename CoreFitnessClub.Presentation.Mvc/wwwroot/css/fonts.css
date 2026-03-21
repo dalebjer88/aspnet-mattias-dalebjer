@@ -49,3 +49,11 @@
   font-display: swap;
   src: url("/fonts/dm-sans/DMSans-Medium.ttf");
 }
+
+@font-face {
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/dm-sans/DMSans-SemiBold.ttf");
+}

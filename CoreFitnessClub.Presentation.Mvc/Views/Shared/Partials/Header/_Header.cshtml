@@ -1,0 +1,215 @@
+@{
+    var headerVariant = ViewData["HeaderVariant"] as string ?? "Default";
+    var headerRadiusClass = headerVariant == "Home"
+        ? "rounded-t-2xl"
+        : "rounded-2xl";
+}
+
+<header class="relative bg-primary @headerRadiusClass">
+    <div class="grid grid-cols-2 items-center px-8 py-6 md:grid-cols-[auto_1fr_auto]">
+        <div class="justify-self-start">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/images/CFC_logotype.svg" alt="Core Fitness Club logo" />
+            </a>
+        </div>
+
+        <nav class="hidden justify-self-center font-dm-sans text-base text-white md:flex md:items-center md:gap-6 xl:hidden">
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Memberships</a>
+
+            <div class="relative">
+                <button id="desktop-training-button"
+                        type="button"
+                        class="flex cursor-pointer items-center gap-2 font-semibold whitespace-nowrap text-white"
+                        aria-expanded="false"
+                        aria-controls="desktop-training-menu">
+                    <span>Training</span>
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z"
+                              clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div id="desktop-training-menu" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
+                    <div class="flex flex-col gap-3 font-dm-sans text-base">
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Personal Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Group Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Padel</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <nav class="hidden justify-self-center font-dm-sans text-base text-white xl:flex xl:items-center xl:gap-6">
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Memberships</a>
+
+            <div class="relative">
+                <button id="desktop-training-button-xl"
+                        type="button"
+                        class="flex cursor-pointer items-center gap-2 font-semibold whitespace-nowrap text-white"
+                        aria-expanded="false"
+                        aria-controls="desktop-training-menu-xl">
+                    <span>Training</span>
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z"
+                              clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div id="desktop-training-menu-xl" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
+                    <div class="flex flex-col gap-3 font-dm-sans text-base">
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Personal Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Group Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Padel</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Customer Service</a>
+            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Store</a>
+        </nav>
+
+        <div class="justify-self-end">
+            <div class="hidden items-center gap-4 xl:flex">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
+                    Become Member
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                    <span>Sign In</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                              clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 xl:hidden">
+                <button id="mobile-menu-button"
+                        type="button"
+                        aria-label="Open menu"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu"
+                        class="hamburger-button cursor-pointer">
+                    <span class="sr-only">Open menu</span>
+                    <span class="hamburger-icon"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden absolute left-0 top-full z-30 w-full px-4 xl:hidden">
+        <nav class="flex flex-col gap-4 rounded-2xl bg-accent p-6 font-dm-sans text-base text-primary">
+            <div class="md:hidden">
+                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span>Fitness Centers</span>
+                </a>
+            </div>
+
+            <div class="md:hidden">
+                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span>Memberships</span>
+                </a>
+            </div>
+
+            <div class="md:hidden">
+                <button id="mobile-training-button"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="mobile-training-menu"
+                        class="flex cursor-pointer items-center gap-2 font-semibold text-primary">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span>Training</span>
+
+                    <svg id="mobile-training-icon"
+                         xmlns="http://www.w3.org/2000/svg"
+                         class="h-5 w-5 transition-transform duration-200"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z"
+                              clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div id="mobile-training-menu" class="hidden mt-3 pl-4">
+                    <div class="flex flex-col gap-3">
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Personal Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Group Training</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                            <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                            <span>Padel</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                <span>Customer Service</span>
+            </a>
+
+            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                <span>Store</span>
+            </a>
+
+            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                <span>Become Member</span>
+            </a>
+
+            <div>
+                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span>Sign In</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>

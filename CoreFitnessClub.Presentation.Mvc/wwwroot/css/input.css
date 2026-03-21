@@ -82,4 +82,58 @@
     background-color: var(--color-accent);
     flex-shrink: 0;
 }
+
+.hamburger-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+.hamburger-icon {
+    position: relative;
+    display: block;
+    width: 1.5rem;
+    height: 0.125rem;
+    background-color: white;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1.5rem;
+    height: 0.125rem;
+    background-color: white;
+    border-radius: 9999px;
+    transition: transform 0.2s ease;
+}
+
+.hamburger-icon::before {
+    transform: translateY(-0.45rem);
+}
+
+.hamburger-icon::after {
+    transform: translateY(0.45rem);
+}
+
+.hamburger-button.is-open .hamburger-icon {
+    background-color: transparent;
+}
+
+.hamburger-button.is-open .hamburger-icon::before {
+    transform: translateY(0) rotate(45deg);
+}
+
+.hamburger-button.is-open .hamburger-icon::after {
+    transform: translateY(0) rotate(-45deg);
+}
+
 }

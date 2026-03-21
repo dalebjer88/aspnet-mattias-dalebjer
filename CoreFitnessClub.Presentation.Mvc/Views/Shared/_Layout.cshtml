@@ -3,17 +3,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Core Fitness Club</title>
+    <title>@ViewData[index: "Title"] - Core Fitness Club</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
 </head>
 <body>
 
-        <header>Header</header>
-        <main>
-            @RenderBody()
-        </main>
-        <footer>Footer</footer>
+    @if (!(ViewData[index: "HideGlobalHeader"] as bool? ?? false))
+    {
+        <partial name="~/Views/Shared/Partials/Header/_Header.cshtml" />
+    }
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>Footer</footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
