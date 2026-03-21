@@ -1,5 +1,72 @@
-<section class="hero border border-red-500">
-    <div class="hero-content flex flex-col">
-        <h1 class="text-white">Core Fitness Club</h1>
+<section class="border-t border-accent/20 px-8 pb-0 pt-6 lg:px-12 lg:pb-0">
+    <div class="mx-auto max-w-319.25">
+        <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
+            <div class="flex flex-col items-center text-center lg:items-start lg:text-left">
+                <span class="section-label">
+                    <span class="section-label-dot"></span>
+                    Strong Body. Strong Mind.
+                </span>
+
+                <div class="mt-3 flex flex-col gap-4">
+                    <h1 class="m-0 leading-tight text-white">
+                        Build Strength Boost Confidence Today!
+                    </h1>
+
+                    <p class="mx-auto max-w-2xl text-white lg:mx-0">
+                        Begin your fitness journey with expert trainers, modern equipment, and a supportive environment designed to help you build strength and confidence.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex w-full flex-col items-center gap-6 lg:items-stretch">
+                    <div class="mx-auto w-full max-w-fit lg:mx-0 lg:max-w-none">
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <div class="inline-flex items-center justify-center gap-3 lg:justify-start">
+                                <img src="~/images/checked_circle.svg" alt="" class="h-4 w-4 shrink-0" />
+                                <span class="font-dm-sans text-base text-white">Transform your body with training</span>
+                            </div>
+
+                            <div class="inline-flex items-center justify-center gap-3 lg:justify-start">
+                                <img src="~/images/checked_circle.svg" alt="" class="h-4 w-4 shrink-0" />
+                                <span class="font-dm-sans text-base text-white">Personal training for real results</span>
+                            </div>
+
+                            <div class="inline-flex items-center justify-center gap-3 lg:justify-start">
+                                <img src="~/images/checked_circle.svg" alt="" class="h-4 w-4 shrink-0" />
+                                <span class="font-dm-sans text-base text-white">Build confidence through fitness</span>
+                            </div>
+
+                            <div class="inline-flex items-center justify-center gap-3 lg:justify-start">
+                                <img src="~/images/checked_circle.svg" alt="" class="h-4 w-4 shrink-0" />
+                                <span class="font-dm-sans text-base text-white">Fitness tailored to your goals</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 border-t border-accent/20"></div>
+                    </div>
+
+                    <div class="pb-8 pt-4 text-center lg:text-left">
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                            <span>Get Started</span>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-5 w-5"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                      clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden h-full lg:flex lg:justify-end">
+                <img src="~/images/hero_training.svg"
+                    alt="People training in the gym"
+                    class="mt-auto block h-auto max-w-full" />
+            </div>
+        </div>
     </div>
 </section>
