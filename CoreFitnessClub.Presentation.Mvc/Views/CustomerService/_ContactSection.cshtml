@@ -1,0 +1,63 @@
+<section class="mx-auto max-w-338 px-4 py-8">
+    <h2 class="pb-14 text-center">Customer Service</h2>
+
+    <div class="min-[1375px]:flex min-[1375px]:flex-row">
+        <div class="hidden min-[1375px]:block">
+            <img src="~/images/contact-us-image1.svg" alt="Woman training in the gym" />
+        </div>
+
+        <div class="mx-auto flex w-full max-w-177.5 flex-col gap-4 rounded-2xl bg-white px-8 py-12 min-[1375px]:mx-0 min-[1375px]:rounded-none min-[1375px]:px-20">
+            <h3 class="font-poppins text-[28px] font-semibold">Contact Us Today</h3>
+
+            <p class="pb-6">
+                Ready to begin your fitness journey? Contact GymPro today and let our expert trainers guide you with the right program and support.
+            </p>
+
+            <form class="grid gap-6">
+                <div class="grid gap-8 lg:grid-cols-2">
+                    <div class="grid gap-4">
+                        <label for="firstName" class="font-poppins text-sm font-semibold text-secondary">First Name *</label>
+                        <input id="firstName" name="firstName" type="text" placeholder="Enter First Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                    </div>
+
+                    <div class="grid gap-4">
+                        <label for="lastName" class="font-poppins text-sm font-semibold text-secondary">Last Name *</label>
+                        <input id="lastName" name="lastName" type="text" placeholder="Enter Last Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                    </div>
+                </div>
+
+                <div class="grid gap-8 lg:grid-cols-2">
+                    <div class="grid gap-4">
+                        <label for="email" class="font-poppins text-sm font-semibold text-secondary">Email Address *</label>
+                        <input id="email" name="email" type="email" placeholder="Enter Email Address" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                    </div>
+
+                    <div class="grid gap-4">
+                        <label for="phone" class="font-poppins text-sm font-semibold text-secondary">Phone Number</label>
+                        <input id="phone" name="phone" type="text" placeholder="Enter Phone Number" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                    </div>
+                </div>
+
+                <div class="grid gap-4">
+                    <label for="message" class="font-poppins text-sm font-semibold text-secondary">Message *</label>
+                    <textarea id="message" name="message" placeholder="Message..." rows="5" class="w-full resize-none overflow-y-auto rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent"></textarea>
+                </div>
+
+                <div class="pt-8">
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                        <span>Submit Message</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-6 w-6"
+                             viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                  clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

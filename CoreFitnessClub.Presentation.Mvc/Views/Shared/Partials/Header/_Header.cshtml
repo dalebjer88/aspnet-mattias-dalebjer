@@ -1,5 +1,6 @@
 @{
     var headerVariant = ViewData["HeaderVariant"] as string ?? "Default";
+    var activePage = ViewData["ActivePage"] as string ?? "";
     var headerRadiusClass = headerVariant == "Home"
         ? "rounded-t-2xl"
         : "rounded-2xl";
@@ -15,7 +16,11 @@
 
         <nav class="hidden justify-self-center font-dm-sans text-base text-white md:flex md:items-center md:gap-6 xl:hidden">
             <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Memberships</a>
+            <a asp-controller="Memberships"
+               asp-action="Index"
+               class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
+                Memberships
+            </a>
 
             <div class="relative">
                 <button id="desktop-training-button"
@@ -56,7 +61,11 @@
 
         <nav class="hidden justify-self-center font-dm-sans text-base text-white xl:flex xl:items-center xl:gap-6">
             <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Memberships</a>
+            <a asp-controller="Memberships"
+               asp-action="Index"
+               class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
+                Memberships
+            </a>
 
             <div class="relative">
                 <button id="desktop-training-button-xl"
@@ -94,7 +103,12 @@
                 </div>
             </div>
 
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Customer Service</a>
+            <a asp-controller="CustomerService"
+               asp-action="Index"
+               class="font-semibold whitespace-nowrap @(activePage == "CustomerService" ? "text-accent" : "text-white")">
+                Customer Service
+            </a>
+
             <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Store</a>
         </nav>
 
@@ -145,9 +159,11 @@
             </div>
 
             <div class="md:hidden">
-                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-controller="Memberships"
+                   asp-action="Index"
+                   class="inline-flex items-center gap-3 font-semibold text-primary">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                    <span>Memberships</span>
+                    <span class="@(activePage == "Memberships" ? "underline underline-offset-4" : "")">Memberships</span>
                 </a>
             </div>
 
@@ -189,9 +205,11 @@
                 </div>
             </div>
 
-            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+            <a asp-controller="CustomerService"
+               asp-action="Index"
+               class="inline-flex items-center gap-3 font-semibold text-primary">
                 <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                <span>Customer Service</span>
+                <span class="@(activePage == "CustomerService" ? "underline underline-offset-4" : "")">Customer Service</span>
             </a>
 
             <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">

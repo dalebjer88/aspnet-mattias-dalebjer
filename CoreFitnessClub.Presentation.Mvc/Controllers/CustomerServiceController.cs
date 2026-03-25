@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers
 {
-    public class HomeController : Controller
+    public class CustomerServiceController : Controller
     {
         public IActionResult Index()
         {
