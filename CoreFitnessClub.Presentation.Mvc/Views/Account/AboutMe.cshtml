@@ -1,108 +1,51 @@
 ﻿@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
     ViewData["Title"] = "About Me";
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "Account";
     ViewData["AccountTab"] = "AboutMe";
-    var accountTab = ViewData["AccountTab"] as string ?? "";
+    ViewData["AccountTitle"] = "About Me";
 }
 
-<section class="mx-auto max-w-338 px-4 py-8">
-    <div>
-        <h2 class="pb-12 text-center pr-8">My Account</h2>
-
-        <div class="flex gap-12">
-            <div class="shrink-0">
-                <div class="flex flex-col gap-8">
-                    <div><img src="~/images/avatar_pic.svg" alt="Profile avatar" /></div>
-                    <div class="overflow-hidden rounded-2xl bg-white">
-                        <div class="bg-accent px-6 py-5">
-                            <h3 class="font-poppins text-sm font-semibold text-secondary">Menu Options</h3>
-                        </div>
-
-                        <a asp-controller="Account" asp-action="AboutMe" class="flex items-center justify-between px-6 py-6">
-                            <span class="font-poppins text-sm font-semibold text-accent">About Me</span>
-                            <span>&gt;</span>
-                        </a>
-
-                        <a asp-controller="Account" asp-action="MyMembership" class="flex items-center justify-between px-6 py-6">
-                            <span class="font-poppins text-sm font-semibold text-secondary">My Membership</span>
-                            <span>&gt;</span>
-                        </a>
-
-                        <a asp-controller="Account" asp-action="MyBookings" class="flex items-center justify-between px-6 py-6">
-                            <span class="font-poppins text-sm font-semibold text-secondary">My Bookings</span>
-                            <span>&gt;</span>
-                        </a>
-
-                        <a asp-controller="Auth" asp-action="SignIn" class="flex items-center justify-between px-6 py-6">
-                            <span class="font-poppins text-sm font-semibold text-secondary">Sign Out</span>
-                            <span>&gt;</span>
-                        </a>
-                    </div>
-                </div>
-                <p class="pt-4 text-center font-poppins font-regular text-[10px]">If you like to cancel your account click below</p>
-                <div class="text-center text-[#E50004] font-poppins font-semibold text-[14px]">Remove Account</div>
-            </div>
-
-            <div class="flex-1 bg-white px-12 py-8 text-start rounded-2xl">
-                <h2 class="font-poppins text-[56px] font-medium">About Me</h2>
-                <form class="mt-6">
-                    <div class="grid gap-4 border-t pt-8 border-gray-light">
-                        <label for="firstName" class="font-poppins text-sm font-semibold">First Name</label>
-                        <input id="firstName" name="firstName" type="text" placeholder="Enter First Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
-                    </div>
-                    <div class="grid gap-4 pt-8">
-                        <label for="lastName" class="font-poppins text-sm font-semibold ">Last Name</label>
-                        <input id="lastName" name="lastName" type="text" placeholder="Enter Last Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
-                    </div>
-                    <div class="grid gap-4 pt-8">
-                        <label for="email" class="font-poppins text-sm font-semibold ">Email Address *</label>
-                        <input id="email" name="email" type="email" placeholder="username@domain.com" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
-                    </div>
-                    <div class="grid gap-4 pt-8 pb-12">
-                        <label for="phone" class="font-poppins text-sm font-semibold ">Phone Number</label>
-                        <input id="phone" name="phone" type="text" placeholder="Enter Phone Number" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
-                    </div>
-                    <div class="grid gap-4 border-t border-gray-light pt-8">
-                        <label for="profileImage" class="font-poppins text-sm font-semibold">Profile Image</label>
-
-                        <label for="profileImage"
-                            class="w-full cursor-pointer rounded-xl bg-background px-6 py-4 font-dm-sans text-base text-[#A7A7A7]">
-                            Upload Profile Image
-                        </label>
-
-                        <input id="profileImage"
-                            name="profileImage"
-                            type="file"
-                            accept="image/*"
-                            class="hidden" />
-                    </div>
-                    <div class="grid gap-4 border-t border-gray-light pt-8">
-                    <div class="flex justify-end pt-8">
-                        <button type="submit"
-                                class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
-                            <span>Save</span>
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6"
-                                viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<form class="mt-6">
+    <div class="grid gap-4 border-t border-gray-light pt-8">
+        <label for="firstName" class="font-poppins text-sm font-semibold">First Name</label>
+        <input id="firstName" name="firstName" type="text" placeholder="Enter First Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
     </div>
 
-    <div class="flex flex-col items-end pt-12">
-        <div>
-        <h2 class="pb-4">My Statistics</h2>
-        <div>
-            <img src="~/images/mystats.svg" alt="Profile avatar" />
-        </div>
-        </div>
+    <div class="grid gap-4 pt-8">
+        <label for="lastName" class="font-poppins text-sm font-semibold">Last Name</label>
+        <input id="lastName" name="lastName" type="text" placeholder="Enter Last Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
     </div>
-</section>
+
+    <div class="grid gap-4 pt-8">
+        <label for="email" class="font-poppins text-sm font-semibold">Email Address *</label>
+        <input id="email" name="email" type="email" placeholder="username@domain.com" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+    </div>
+
+    <div class="grid gap-4 pb-12 pt-8">
+        <label for="phone" class="font-poppins text-sm font-semibold">Phone Number</label>
+        <input id="phone" name="phone" type="text" placeholder="Enter Phone Number" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+    </div>
+
+    <div class="grid gap-4 border-t border-gray-light pt-8">
+        <label for="profileImage" class="font-poppins text-sm font-semibold">Profile Image</label>
+
+        <label for="profileImage" class="w-full cursor-pointer rounded-xl bg-background px-6 py-4 font-dm-sans text-base text-[#A7A7A7]">
+            Upload Profile Image
+        </label>
+
+        <input id="profileImage" name="profileImage" type="file" accept="image/*" class="hidden" />
+    </div>
+
+    <div class="flex justify-end pt-8">
+        <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold whitespace-nowrap text-primary">
+            <span>Save</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                      clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+</form>

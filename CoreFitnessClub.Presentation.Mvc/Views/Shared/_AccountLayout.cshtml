@@ -1,0 +1,66 @@
+@{
+    Layout = "_Layout";
+    var accountTab = ViewData["AccountTab"] as string ?? "";
+    var accountTitle = ViewData["AccountTitle"] as string ?? "";
+}
+
+<section class="mx-auto max-w-338 px-4 py-8">
+    <div>
+        <h2 class="pb-12 pr-8 text-center">My Account</h2>
+
+        <div class="flex flex-col gap-12 lg:flex-row">
+            <div class="shrink-0">
+                <div class="flex flex-col gap-8">
+                    <div class="flex justify-center lg:block">
+                        <img src="~/images/avatar_pic.svg" alt="Profile avatar" />
+                    </div>
+
+                    <div class="overflow-hidden rounded-2xl bg-white">
+                        <div class="bg-accent px-6 py-5">
+                            <h3 class="font-poppins text-sm font-semibold text-secondary">Menu Options</h3>
+                        </div>
+
+                        <a asp-controller="Account" asp-action="AboutMe" class="flex items-center justify-between px-6 py-6">
+                            <span class="font-poppins text-sm font-semibold @(accountTab == "AboutMe" ? "text-accent" : "text-secondary")">About Me</span>
+                            <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
+                        </a>
+
+                        <a asp-controller="Account" asp-action="MyMembership" class="flex items-center justify-between px-6 py-6">
+                            <span class="font-poppins text-sm font-semibold @(accountTab == "MyMembership" ? "text-accent" : "text-secondary")">My Membership</span>
+                            <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
+                        </a>
+
+                        <a asp-controller="Account" asp-action="MyBookings" class="flex items-center justify-between px-6 py-6">
+                            <span class="font-poppins text-sm font-semibold @(accountTab == "MyBookings" ? "text-accent" : "text-secondary")">My Bookings</span>
+                            <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
+                        </a>
+
+                        <a asp-controller="Auth" asp-action="SignIn" class="flex items-center justify-between px-6 py-6">
+                            <span class="font-poppins text-sm font-semibold text-secondary">Sign Out</span>
+                            <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="pt-4 text-center font-poppins text-[10px]">If you like to cancel your account click below</p>
+                <div class="text-center font-poppins text-[14px] font-semibold text-[#E50004]">Remove Account</div>
+            </div>
+
+            <div class="lg:flex-1">
+                <div class="rounded-2xl bg-white px-12 py-8 text-start">
+                    <h2 class="font-poppins text-[56px] font-medium">@accountTitle</h2>
+                    @RenderBody()
+                </div>
+
+                <div class="pt-12">
+                    <div class="flex flex-col items-center lg:items-end">
+                        <h2 class="pb-4 text-center lg:text-left">My Statistics</h2>
+                        <div class="flex justify-center lg:block">
+                            <img src="~/images/mystats.svg" alt="Profile statistics" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
