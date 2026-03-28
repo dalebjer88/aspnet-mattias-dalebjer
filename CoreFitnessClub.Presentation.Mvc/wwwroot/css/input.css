@@ -1,66 +1,61 @@
 ﻿@import "tailwindcss";
 @import "./fonts.css";
 
-
 @theme {
+  --font-poppins: "Poppins", sans-serif;
+  --font-dm-sans: "DM Sans", sans-serif;
 
-    --font-poppins: "Poppins", sans-serif;
-    --font-dm-sans: "DM Sans", sans-serif;
+  --text-heading-1: clamp(2.5rem, 2rem + 1.5vw, 3.375rem);
+  --text-heading-2: clamp(2rem, 1.8rem + 1vw, 3rem);
+  --text-heading-3: 1.125rem;
 
-    --text-heading-1: clamp(2.5rem, 2rem + 1.5vw, 3.375rem);
-    --text-heading-2: clamp(2rem, 1.8rem + 1vw, 3rem);
-    --text-heading-3: 1.125rem;
+  --color-primary: #131020;
+  --color-secondary: #27252f;
+  --color-accent: #d6eb31;
 
-    --color-primary: #131020;
-    --color-secondary: #27252F;
-    --color-accent: #D6EB31;
+  --color-gray-light: #e6e6e6;
+  --color-gray: #6f6f6f;
 
-    --color-gray-light: #E6E6E6;
-    --color-gray: #6F6F6F;
-
-    --color-background: #f7f7f7;
-
+  --color-background: #f7f7f7;
 }
 
-
 @layer base {
+  body {
+    background-color: var(--color-background);
+  }
 
-    body {
-        background-color: var(--color-background);
-    }
+  p {
+    font-family: var(--font-dm-sans);
+    font-size: var(--text-base);
+    font-weight: 400;
+    color: var(--color-gray);
+  }
 
-    p {
-        font-family: var(--font-dm-sans);
-        font-size: var(--text-base);
-        font-weight: 400;
-        color: var(--color-gray);
-    }
-
-h1 {
+  h1 {
     font-family: var(--font-poppins);
     font-weight: 700;
     font-size: var(--text-heading-1);
-}
+  }
 
-    h2 {
-        font-family: var(--font-poppins);
-        font-weight: 500;
-        font-size: var(--text-heading-2);
-    }
+  h2 {
+    font-family: var(--font-poppins);
+    font-weight: 500;
+    font-size: var(--text-heading-2);
+  }
 
-    h3 {
-        font-family: var(--font-poppins);
-        font-weight: 600;
-        font-size: var(--text-heading-3);
-    }
+  h3 {
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: var(--text-heading-3);
+  }
 
-    h4 {
-        font-family: var(--font-poppins);
-        font-weight: 800;
-        font-size: 1.25rem;
-    } 
+  h4 {
+    font-family: var(--font-poppins);
+    font-weight: 800;
+    font-size: 1.25rem;
+  }
 
-.section-label {
+  .section-label {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -73,17 +68,17 @@ h1 {
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1;
-}
+  }
 
-.section-label-dot {
+  .section-label-dot {
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 9999px;
     background-color: var(--color-accent);
     flex-shrink: 0;
-}
+  }
 
-.hamburger-button {
+  .hamburger-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -92,20 +87,22 @@ h1 {
     background: transparent;
     border: none;
     color: white;
-}
+  }
 
-.hamburger-icon {
+  .hamburger-icon {
     position: relative;
     display: block;
     width: 1.5rem;
     height: 0.125rem;
     background-color: white;
     border-radius: 9999px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
 
-.hamburger-icon::before,
-.hamburger-icon::after {
+  .hamburger-icon::before,
+  .hamburger-icon::after {
     content: "";
     position: absolute;
     left: 0;
@@ -114,26 +111,25 @@ h1 {
     background-color: white;
     border-radius: 9999px;
     transition: transform 0.2s ease;
-}
+  }
 
-.hamburger-icon::before {
+  .hamburger-icon::before {
     transform: translateY(-0.45rem);
-}
+  }
 
-.hamburger-icon::after {
+  .hamburger-icon::after {
     transform: translateY(0.45rem);
-}
+  }
 
-.hamburger-button.is-open .hamburger-icon {
+  .hamburger-button.is-open .hamburger-icon {
     background-color: transparent;
-}
+  }
 
-.hamburger-button.is-open .hamburger-icon::before {
+  .hamburger-button.is-open .hamburger-icon::before {
     transform: translateY(0) rotate(45deg);
-}
+  }
 
-.hamburger-button.is-open .hamburger-icon::after {
+  .hamburger-button.is-open .hamburger-icon::after {
     transform: translateY(0) rotate(-45deg);
-}
-
+  }
 }
