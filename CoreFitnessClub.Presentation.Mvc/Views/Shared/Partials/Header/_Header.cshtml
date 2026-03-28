@@ -15,7 +15,7 @@
         </div>
 
         <nav class="hidden justify-self-center font-dm-sans text-base text-white md:flex md:items-center md:gap-6 xl:hidden">
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
             <a asp-controller="Memberships"
                asp-action="Index"
                class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
@@ -42,15 +42,15 @@
 
                 <div id="desktop-training-menu" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
                     <div class="flex flex-col gap-3 font-dm-sans text-base">
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -60,7 +60,7 @@
         </nav>
 
         <nav class="hidden justify-self-center font-dm-sans text-base text-white xl:flex xl:items-center xl:gap-6">
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
             <a asp-controller="Memberships"
                asp-action="Index"
                class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
@@ -87,15 +87,15 @@
 
                 <div id="desktop-training-menu-xl" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
                     <div class="flex flex-col gap-3 font-dm-sans text-base">
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -109,7 +109,7 @@
                 Customer Service
             </a>
 
-            <a asp-controller="Home" asp-action="Index" class="font-semibold whitespace-nowrap">Store</a>
+            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Store</a>
         </nav>
 
         <div class="justify-self-end">
@@ -152,7 +152,7 @@
     <div id="mobile-menu" class="hidden absolute left-0 top-full z-30 w-full px-4 xl:hidden">
         <nav class="flex flex-col gap-4 rounded-2xl bg-accent p-6 font-dm-sans text-base text-primary">
             <div class="md:hidden">
-                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span>Fitness Centers</span>
                 </a>
@@ -189,15 +189,15 @@
 
                 <div id="mobile-training-menu" class="hidden mt-3 pl-4">
                     <div class="flex flex-col gap-3">
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -212,7 +212,7 @@
                 <span class="@(activePage == "CustomerService" ? "underline underline-offset-4" : "")">Customer Service</span>
             </a>
 
-            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+            <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                 <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                 <span>Store</span>
             </a>
