@@ -114,14 +114,14 @@
 
         <div class="justify-self-end">
             <div class="hidden items-center gap-4 xl:flex">
-                <a asp-controller="Account"
-                   asp-action="AboutMe"
+                <a asp-controller="Auth"
+                   asp-action="SignUp"
                    class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
                     Become Member
                 </a>
 
-                <a asp-controller="Account"
-                   asp-action="AboutMe"
+                <a asp-controller="Auth"
+                   asp-action="SignIn"
                    class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
                     <span>Sign In</span>
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -217,13 +217,13 @@
                 <span>Store</span>
             </a>
 
-            <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+            <a asp-controller="Auth" asp-action="SignUp" class="inline-flex items-center gap-3 font-semibold">
                 <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                 <span>Become Member</span>
             </a>
 
             <div>
-                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-controller="Auth" asp-action="SignIn" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span>Sign In</span>
                 </a>

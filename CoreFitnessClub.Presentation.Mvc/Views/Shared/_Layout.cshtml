@@ -22,7 +22,10 @@
         @RenderBody()
     </main>
 
-    <partial name="~/Views/Shared/Partials/Footer/_Footer.cshtml" />
+    @if (!(ViewData["HideGlobalFooter"] as bool? ?? false))
+    {
+        <partial name="~/Views/Shared/Partials/Footer/_Footer.cshtml" />
+    }
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
