@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CoreFitnessClub.Presentation.Mvc.Controllers
+namespace CoreFitnessClub.Presentation.Mvc.Controllers;
+
+public class ErrorController : Controller
 {
-    public class ErrorController : Controller
+    [Route("404")]
+    public IActionResult NotFoundPage()
     {
-        [Route("404")]
-        public IActionResult NotFoundPage()
-        {
-            return View();
-        }
+        return View();
+    }
+
+    [Route("error")]
+    public IActionResult ServerError()
+    {
+        return View();
     }
 }
