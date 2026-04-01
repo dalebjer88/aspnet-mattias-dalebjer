@@ -1,7 +1,7 @@
 @{
     Layout = "_Layout";
-    var accountTab = ViewData["AccountTab"] as string ?? "";
-    var accountTitle = ViewData["AccountTitle"] as string ?? "";
+    var accountTab = ViewData[index: "AccountTab"] as string ?? "";
+    var accountTitle = ViewData[index: "AccountTitle"] as string ?? "";
 }
 
 <section class="mx-auto max-w-338 px-4 py-8">
@@ -35,10 +35,12 @@
                             <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
                         </a>
 
-                        <a asp-controller="Auth" asp-action="SignIn" class="flex items-center justify-between px-6 py-6">
-                            <span class="font-poppins text-sm font-semibold text-secondary">Sign Out</span>
-                            <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
-                        </a>
+                        <form asp-controller="Auth" asp-action="SignOut" method="post">
+                            <button type="submit" class="flex w-full items-center justify-between px-6 py-6 text-left">
+                                <span class="font-poppins text-sm font-semibold text-secondary">Sign Out</span>
+                                <span class="inline-block rotate-90 lg:rotate-0">&gt;</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
 

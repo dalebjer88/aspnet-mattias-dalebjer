@@ -1,0 +1,60 @@
+@model CoreFitnessClub.Presentation.Mvc.ViewModels.Auth.SignUpViewModel
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Sign Up";
+    ViewData["HeaderVariant"] = "Default";
+}
+
+<section>
+    <div class="mx-auto w-full max-w-215 rounded-2xl bg-white px-16 py-10">
+        <div>
+            <h2 class="text-[56px]">Become a Member</h2>
+            <p class="pb-10">Sign up to continue your fitness journey with full access to your customized program, training history, and progress tracking. Stay consistent, monitor your development, and keep moving forward with the structure and support built into your account.</p>
+        </div>
+
+        <div class="mb-16 h-px flex-1 bg-gray-light"></div>
+
+        <div class="flex justify-center gap-4">
+            <img src="~/images/google.svg" alt="google button" />
+            <img src="~/images/facebook.svg" alt="facebook button" />
+            <img src="~/images/github.svg" alt="github button" />
+        </div>
+
+        <div class="my-8 mt-16 flex items-center gap-4">
+            <div class="h-px flex-1 bg-gray-light"></div>
+            <span class="font-dm-sans text-1xl font-normal uppercase text-gray">
+                or continue with
+            </span>
+            <div class="h-px flex-1 bg-gray-light"></div>
+        </div>
+
+        <form asp-controller="Auth" asp-action="SignUp" method="post">
+            <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
+
+            <div>
+                <label asp-for="Email" class="block pb-4 pt-8 font-poppins text-sm font-semibold text-primary">Email Address *</label>
+                <input asp-for="Email" placeholder="Enter Email Address" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none focus:border-accent" />
+                <span asp-validation-for="Email" style="color: red;"></span>
+            </div>
+
+            <div class="w-full pt-12 pb-6">
+                <button type="submit"
+                        class="relative mx-auto flex w-full max-w-139 items-center justify-center rounded-full bg-accent px-6 py-4 font-dm-sans text-base font-semibold text-primary">
+                    <span>Continue</span>
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-5 w-5"
+                             viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                  clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                </button>
+
+                <p class="pt-6 text-center">We will send a verification code to your email address.</p>
+            </div>
+        </form>
+    </div>
+</section>

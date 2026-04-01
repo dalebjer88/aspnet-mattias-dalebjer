@@ -1,6 +1,4 @@
-﻿using CoreFitnessClub.Domain.Entities;
-using CoreFitnessClub.Infrastructure.Data;
-using CoreFitnessClub.Infrastructure.Identity;
+﻿using CoreFitnessClub.Infrastructure.Identity;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,27 +9,62 @@ public class AuthController : Controller
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
-    private readonly CoreFitnessClubDbContext _dbContext;
 
     public AuthController(
         UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager,
-        CoreFitnessClubDbContext dbContext)
+        SignInManager<AppUser> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _dbContext = dbContext;
     }
 
     [HttpGet]
     public IActionResult SignUp()
     {
-        return View();
+        return View(new SignUpViewModel());
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var existingUser = await _userManager.FindByEmailAsync(model.Email);
+
+        if (existingUser is not null)
+        {
+            ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
+            return View(model);
+        }
+
+        TempData["SignUpEmail"] = model.Email;
+
+        return RedirectToAction(nameof(SetPassword));
+    }
+
+    [HttpGet]
+    public IActionResult SetPassword()
+    {
+        if (TempData["SignUpEmail"] is not string email || string.IsNullOrWhiteSpace(email))
+        {
+            return RedirectToAction(nameof(SignUp));
+        }
+
+        TempData["SignUpEmail"] = email;
+
+        return View(new SetPasswordViewModel
+        {
+            Email = email
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -64,25 +97,6 @@ public class AuthController : Controller
             return View(model);
         }
 
-        try
-        {
-            var memberProfile = new MemberProfile
-            {
-                UserId = user.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
-
-            _dbContext.MemberProfiles.Add(memberProfile);
-            await _dbContext.SaveChangesAsync();
-        }
-        catch
-        {
-            await _userManager.DeleteAsync(user);
-            ModelState.AddModelError(string.Empty, "Something went wrong while creating the profile.");
-            return View(model);
-        }
-
         await _signInManager.SignInAsync(user, isPersistent: false);
 
         return RedirectToAction("Index", "Home");
@@ -92,7 +106,7 @@ public class AuthController : Controller
     public IActionResult SignIn(string? returnUrl = null)
     {
         ViewData["ReturnUrl"] = returnUrl;
-        return View();
+        return View(new SignInViewModel());
     }
 
     [HttpPost]
@@ -145,6 +159,6 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult AccessDenied()
     {
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("SignIn", "Auth");
     }
 }
