@@ -1,31 +1,36 @@
-﻿@{
+﻿@model CoreFitnessClub.Presentation.Mvc.ViewModels.Account.AboutMeViewModel
+@{
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
     ViewData["Title"] = "About Me";
     ViewData["HeaderVariant"] = "Default";
-    ViewData["ActivePage"] = "Account";
-    ViewData["AccountTab"] = "AboutMe";
     ViewData["AccountTitle"] = "About Me";
 }
 
-<form class="mt-6">
+<form asp-action="AboutMe" method="post" class="mt-6">
+    <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
+
     <div class="grid gap-4 border-t border-gray-light pt-8">
-        <label for="firstName" class="font-poppins text-sm font-semibold">First Name</label>
-        <input id="firstName" name="firstName" type="text" placeholder="Enter First Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <label asp-for="FirstName" class="font-poppins text-sm font-semibold">First Name</label>
+        <input asp-for="FirstName" placeholder="Enter First Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <span asp-validation-for="FirstName" style="color: red;"></span>
     </div>
 
     <div class="grid gap-4 pt-8">
-        <label for="lastName" class="font-poppins text-sm font-semibold">Last Name</label>
-        <input id="lastName" name="lastName" type="text" placeholder="Enter Last Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <label asp-for="LastName" class="font-poppins text-sm font-semibold">Last Name</label>
+        <input asp-for="LastName" placeholder="Enter Last Name" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <span asp-validation-for="LastName" style="color: red;"></span>
     </div>
 
     <div class="grid gap-4 pt-8">
-        <label for="email" class="font-poppins text-sm font-semibold">Email Address *</label>
-        <input id="email" name="email" type="email" placeholder="username@domain.com" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <label asp-for="Email" class="font-poppins text-sm font-semibold">Email Address *</label>
+        <input asp-for="Email" readonly class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <span asp-validation-for="Email" style="color: red;"></span>
     </div>
 
     <div class="grid gap-4 pb-12 pt-8">
-        <label for="phone" class="font-poppins text-sm font-semibold">Phone Number</label>
-        <input id="phone" name="phone" type="text" placeholder="Enter Phone Number" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <label asp-for="PhoneNumber" class="font-poppins text-sm font-semibold">Phone Number</label>
+        <input asp-for="PhoneNumber" placeholder="Enter Phone Number" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+        <span asp-validation-for="PhoneNumber" style="color: red;"></span>
     </div>
 
     <div class="grid gap-4 border-t border-gray-light pt-8">
@@ -39,7 +44,7 @@
     </div>
 
     <div class="flex justify-end pt-8">
-        <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold whitespace-nowrap text-primary">
+        <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-dm-sans text-base font-semibold whitespace-nowrap text-primary">
             <span>Save</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CoreFitnessClub.Infrastructure.Data.Configurations;
 
-public class MemberProfileConfiguration : IEntityTypeConfiguration<MemberProfile>
+public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 {
-    public void Configure(EntityTypeBuilder<MemberProfile> builder)
+    public void Configure(EntityTypeBuilder<UserProfile> builder)
     {
-        builder.ToTable("MemberProfiles");
+        builder.ToTable("UserProfiles");
 
         builder.HasKey(x => x.Id);
 
@@ -16,11 +16,9 @@ public class MemberProfileConfiguration : IEntityTypeConfiguration<MemberProfile
             .IsRequired();
 
         builder.Property(x => x.FirstName)
-            .IsRequired()
             .HasMaxLength(100);
 
         builder.Property(x => x.LastName)
-            .IsRequired()
             .HasMaxLength(100);
 
         builder.Property(x => x.PhoneNumber)

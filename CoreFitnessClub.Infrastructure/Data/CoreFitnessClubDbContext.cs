@@ -11,7 +11,7 @@ public class CoreFitnessClubDbContext : IdentityDbContext<AppUser>
     {
     }
 
-    public DbSet<CoreFitnessClub.Domain.Entities.MemberProfile> MemberProfiles { get; set; } = null!;
+    public DbSet<CoreFitnessClub.Domain.Entities.UserProfile> UserProfiles { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

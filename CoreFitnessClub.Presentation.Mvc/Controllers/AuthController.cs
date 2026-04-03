@@ -150,7 +150,7 @@ public class AuthController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SignOut()
+    public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");

@@ -1,3 +1,4 @@
+using CoreFitnessClub.Application;
 using CoreFitnessClub.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ builder.Services.AddRouting(options =>
     options.LowercaseUrls = true;
 });
 
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
 builder.Services.AddControllersWithViews();

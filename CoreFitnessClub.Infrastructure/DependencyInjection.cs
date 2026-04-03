@@ -1,4 +1,6 @@
-﻿using CoreFitnessClub.Infrastructure.Data;
+﻿using CoreFitnessClub.Application.Abstractions;
+using CoreFitnessClub.Infrastructure.Data;
+using CoreFitnessClub.Infrastructure.Data.Repositories;
 using CoreFitnessClub.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +48,11 @@ public static class DependencyInjection
             options.LoginPath = "/Auth/SignIn";
             options.AccessDeniedPath = "/Auth/AccessDenied";
         });
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }
