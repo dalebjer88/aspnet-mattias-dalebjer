@@ -1,4 +1,5 @@
 @{
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
     var headerVariant = ViewData["HeaderVariant"] as string ?? "Default";
     var activePage = ViewData["ActivePage"] as string ?? "";
     var headerRadiusClass = headerVariant == "Home"
@@ -114,25 +115,50 @@
 
         <div class="justify-self-end">
             <div class="hidden items-center gap-4 xl:flex">
-                <a asp-controller="Auth"
-                   asp-action="SignUp"
-                   class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
-                    Become Member
-                </a>
+                @if (isAuthenticated)
+                {
+                    <a asp-controller="Error"
+                    asp-action="NotFoundPage"
+                    class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
+                        Our Classes
+                    </a>
 
-                <a asp-controller="Auth"
-                   asp-action="SignIn"
-                   class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
-                    <span>Sign In</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="h-5 w-5"
-                         viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
-                              clip-rule="evenodd" />
-                    </svg>
-                </a>
+                    <a asp-controller="Account"
+                    asp-action="AboutMe"
+                    class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                        <span>My Account</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Auth"
+                    asp-action="SignUp"
+                    class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
+                        Become Member
+                    </a>
+
+                    <a asp-controller="Auth"
+                    asp-action="SignIn"
+                    class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                        <span>Sign In</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                }
             </div>
 
             <div class="flex items-center gap-3 xl:hidden">
@@ -217,17 +243,34 @@
                 <span>Store</span>
             </a>
 
-            <a asp-controller="Auth" asp-action="SignUp" class="inline-flex items-center gap-3 font-semibold">
-                <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                <span>Become Member</span>
-            </a>
-
-            <div>
-                <a asp-controller="Auth" asp-action="SignIn" class="inline-flex items-center gap-3 font-semibold">
+            @if (isAuthenticated)
+            {
+                <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                    <span>Sign In</span>
+                    <span>Our Classes</span>
                 </a>
-            </div>
+
+                <div>
+                    <a asp-controller="Account" asp-action="AboutMe" class="inline-flex items-center gap-3 font-semibold">
+                        <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                        <span>My Account</span>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <a asp-controller="Auth" asp-action="SignUp" class="inline-flex items-center gap-3 font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span>Become Member</span>
+                </a>
+
+                <div>
+                    <a asp-controller="Auth" asp-action="SignIn" class="inline-flex items-center gap-3 font-semibold">
+                        <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                        <span>Sign In</span>
+                    </a>
+                </div>
+            }
         </nav>
     </div>
 </header>

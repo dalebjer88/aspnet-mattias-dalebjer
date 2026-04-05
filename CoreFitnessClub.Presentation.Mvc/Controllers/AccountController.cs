@@ -1,6 +1,8 @@
 ﻿using CoreFitnessClub.Application.Features.Account;
+using CoreFitnessClub.Infrastructure.Identity;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
@@ -9,10 +11,14 @@ namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
+    private readonly SignInManager<AppUser> _signInManager;
 
-    public AccountController(IAccountService accountService)
+    public AccountController(
+        IAccountService accountService,
+        SignInManager<AppUser> signInManager)
     {
         _accountService = accountService;
+        _signInManager = signInManager;
     }
 
     [HttpGet]
@@ -66,6 +72,29 @@ public class AccountController : Controller
         await _accountService.SaveAboutMeAsync(request);
 
         return RedirectToAction(nameof(AboutMe));
+    }
+
+    [HttpGet]
+    public IActionResult DeleteAccount()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteAccountConfirmed()
+    {
+        var deleted = await _accountService.DeleteAccountAsync();
+
+        if (!deleted)
+        {
+            TempData["DeleteAccountError"] = "Something went wrong while removing your account. Please try again.";
+            return RedirectToAction(nameof(DeleteAccount));
+        }
+
+        await _signInManager.SignOutAsync();
+
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]

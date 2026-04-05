@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Domain.Entities;
+using CoreFitnessClub.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +14,8 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.UserId)
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(450);
 
         builder.Property(x => x.FirstName)
             .HasMaxLength(100);
@@ -29,5 +31,10 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 
         builder.HasIndex(x => x.UserId)
             .IsUnique();
+
+        builder.HasOne<AppUser>()
+            .WithOne()
+            .HasForeignKey<UserProfile>(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

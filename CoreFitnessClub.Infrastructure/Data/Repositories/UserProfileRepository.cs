@@ -1,6 +1,5 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
 using CoreFitnessClub.Domain.Entities;
-using CoreFitnessClub.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreFitnessClub.Infrastructure.Data.Repositories;

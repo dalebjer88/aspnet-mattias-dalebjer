@@ -7,13 +7,16 @@ public class AccountService : IAccountService
 {
     private readonly IUserProfileRepository _userProfileRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IIdentityUserService _identityUserService;
 
     public AccountService(
         IUserProfileRepository userProfileRepository,
-        ICurrentUserService currentUserService)
+        ICurrentUserService currentUserService,
+        IIdentityUserService identityUserService)
     {
         _userProfileRepository = userProfileRepository;
         _currentUserService = currentUserService;
+        _identityUserService = identityUserService;
     }
 
     public async Task<AboutMeDto?> GetAboutMeAsync(CancellationToken cancellationToken = default)
@@ -59,6 +62,16 @@ public class AccountService : IAccountService
         userProfile.PhoneNumber = Normalize(request.PhoneNumber);
 
         await _userProfileRepository.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<bool> DeleteAccountAsync(CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+        {
+            return false;
+        }
+
+        return await _identityUserService.DeleteCurrentUserAsync(cancellationToken);
     }
 
     private static string? Normalize(string? value)
