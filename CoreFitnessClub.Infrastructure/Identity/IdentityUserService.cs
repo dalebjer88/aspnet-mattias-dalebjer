@@ -27,7 +27,7 @@ public class IdentityUserService : IIdentityUserService
 
         if (user is null)
         {
-            return false;
+            return true;
         }
 
         var result = await _userManager.DeleteAsync(user);

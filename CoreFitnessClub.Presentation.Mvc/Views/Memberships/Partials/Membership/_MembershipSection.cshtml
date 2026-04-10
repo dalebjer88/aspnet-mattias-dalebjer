@@ -1,15 +1,16 @@
+@model List<CoreFitnessClub.Presentation.Mvc.ViewModels.Memberships.MembershipCardViewModel>
+
 <section id="our-membership" class="pt-12 pb-12">
     <div class="mx-auto flex max-w-330 flex-col gap-16">
-        <h2 class="text-center pb-6">Our Membership Offer</h2>
+        <h2 class="pb-6 text-center">Our Membership Offer</h2>
 
         <div class="grid grid-cols-12 gap-8">
-            <div class="col-span-12 lg:col-span-6 xl:col-span-4">
-                <partial name="Partials/Membership/_MembershipCard" />
-            </div>
-
-            <div class="col-span-12 lg:col-span-6 xl:col-span-4">
-                <partial name="Partials/Membership/_MembershipCard" />
-            </div>
+            @foreach (var card in Model)
+            {
+                <div class="col-span-12 lg:col-span-6 xl:col-span-4">
+                    <partial name="Partials/Membership/_MembershipCard" model="card" />
+                </div>
+            }
 
             <div class="col-span-12 xl:col-span-4">
                 <partial name="Partials/Membership/_MembershipCallUs" />

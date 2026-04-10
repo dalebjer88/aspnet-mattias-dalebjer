@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Features.Account;
+using CoreFitnessClub.Application.Features.Memberships;
 using CoreFitnessClub.Infrastructure.Identity;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -11,13 +12,16 @@ namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
+    private readonly IReadMembershipService _readMembershipService;
     private readonly SignInManager<AppUser> _signInManager;
 
     public AccountController(
         IAccountService accountService,
+        IReadMembershipService readMembershipService,
         SignInManager<AppUser> signInManager)
     {
         _accountService = accountService;
+        _readMembershipService = readMembershipService;
         _signInManager = signInManager;
     }
 
@@ -98,9 +102,24 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult MyMembership()
+    public async Task<IActionResult> MyMembership()
     {
-        return View();
+        var myMembership = await _readMembershipService.GetMyMembershipAsync();
+
+        var model = new MyMembershipViewModel();
+
+        if (myMembership is not null)
+        {
+            model.PlanName = myMembership.PlanName;
+            model.PricePerMonth = myMembership.PricePerMonth;
+            model.ClassesPerMonth = myMembership.ClassesPerMonth;
+            model.TrialWeeks = myMembership.TrialWeeks;
+            model.Features = myMembership.Features;
+            model.Status = myMembership.Status;
+            model.StartDate = myMembership.StartDate;
+        }
+
+        return View(model);
     }
 
     [HttpGet]

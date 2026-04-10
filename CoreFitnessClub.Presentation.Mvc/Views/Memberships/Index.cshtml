@@ -1,12 +1,36 @@
-﻿@{
+﻿@model List<CoreFitnessClub.Application.Features.Memberships.MembershipPlanDto>
+@using CoreFitnessClub.Presentation.Mvc.ViewModels.Memberships
+
+@{
     ViewData["Title"] = "Memberships";
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "Memberships";
+
+    var membershipError = TempData["MembershipError"] as string;
+
+    var cardModels = Model.Select(plan => new MembershipCardViewModel
+    {
+        Id = plan.Id,
+        Name = plan.Name,
+        PricePerMonth = plan.PricePerMonth,
+        ClassesPerMonth = plan.ClassesPerMonth,
+        TrialWeeks = plan.TrialWeeks,
+        Features = plan.Features
+    }).ToList();
 }
 
 <section class="px-4 py-4">
     <div class="mx-auto max-w-472">
-        <partial name="Partials/Membership/_MembershipSection" />
+        <partial name="Partials/Membership/_MembershipSection" model="cardModels" />
         <partial name="~/Views/Shared/Partials/FaqSection/_FaqSection.cshtml" />
     </div>
 </section>
+
+@if (!string.IsNullOrWhiteSpace(membershipError))
+{
+    <section class="px-4 pb-4">
+        <div class="mx-auto max-w-330">
+            <p class="text-center" style="color: red;">@membershipError</p>
+        </div>
+    </section>
+}

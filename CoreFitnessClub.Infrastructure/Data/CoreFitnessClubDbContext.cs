@@ -1,4 +1,5 @@
-﻿using CoreFitnessClub.Infrastructure.Identity;
+﻿using CoreFitnessClub.Domain.Entities;
+using CoreFitnessClub.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,10 @@ public class CoreFitnessClubDbContext : IdentityDbContext<AppUser>
     {
     }
 
-    public DbSet<CoreFitnessClub.Domain.Entities.UserProfile> UserProfiles { get; set; } = null!;
+    public DbSet<UserProfile> UserProfiles { get; set; } = null!;
+    public DbSet<MembershipPlan> MembershipPlans { get; set; } = null!;
+    public DbSet<MembershipPlanFeature> MembershipPlanFeatures { get; set; } = null!;
+    public DbSet<Membership> Memberships { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
