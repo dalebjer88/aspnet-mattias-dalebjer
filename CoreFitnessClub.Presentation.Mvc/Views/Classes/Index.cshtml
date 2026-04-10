@@ -1,0 +1,79 @@
+﻿@model List<CoreFitnessClub.Application.Features.Classes.TrainingClassDto>
+
+@{
+    ViewData["Title"] = "Our Classes";
+    ViewData["HeaderVariant"] = "Default";
+    ViewData["ActivePage"] = "Classes";
+}
+
+<section class="px-4 py-4">
+    <div class="mx-auto max-w-472">
+        <div class="rounded-2xl bg-white px-6 py-8 md:px-10">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 text-center md:text-left">
+                    <p class="font-dm-sans text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+                        Training Schedule
+                    </p>
+                    <h2>Our Classes</h2>
+                    <p class="mx-auto max-w-180 md:mx-0">
+                        Explore our upcoming classes and find the training session that fits your schedule.
+                    </p>
+                </div>
+
+                <div class="mt-4 flex flex-col gap-4">
+                    @if (Model.Count == 0)
+                    {
+                        <div class="rounded-2xl bg-background px-6 py-8 text-center">
+                            <p>No classes available right now.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var trainingClass in Model)
+                        {
+                            <article class="rounded-2xl bg-background px-6 py-6">
+                                <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                                    <div class="flex flex-col gap-4">
+                                        <div class="flex flex-wrap items-center gap-3">
+                                            @if (!string.IsNullOrWhiteSpace(trainingClass.Category))
+                                            {
+                                                <span class="rounded-full bg-accent px-4 py-2 font-dm-sans text-sm font-semibold text-primary">
+                                                    @trainingClass.Category
+                                                </span>
+                                            }
+
+                                            <span class="font-dm-sans text-sm text-gray">
+                                                @trainingClass.StartsAt.ToString("dddd, dd MMMM")
+                                            </span>
+                                        </div>
+
+                                        <div class="flex flex-col gap-2">
+                                            <h3>@trainingClass.Name</h3>
+
+                                            <div class="flex flex-col gap-1 font-dm-sans text-base text-gray">
+                                                <p>
+                                                    @trainingClass.StartsAt.ToString("HH:mm") - @trainingClass.EndsAt.ToString("HH:mm")
+                                                </p>
+
+                                                @if (!string.IsNullOrWhiteSpace(trainingClass.InstructorName))
+                                                {
+                                                    <p>Instructor: @trainingClass.InstructorName</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-start lg:justify-end">
+                                        <div class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                            <span>Booking next</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

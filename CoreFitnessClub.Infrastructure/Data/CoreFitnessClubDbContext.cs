@@ -16,6 +16,7 @@ public class CoreFitnessClubDbContext : IdentityDbContext<AppUser>
     public DbSet<MembershipPlan> MembershipPlans { get; set; } = null!;
     public DbSet<MembershipPlanFeature> MembershipPlanFeatures { get; set; } = null!;
     public DbSet<Membership> Memberships { get; set; } = null!;
+    public DbSet<TrainingClass> TrainingClasses { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -117,9 +117,9 @@
             <div class="hidden items-center gap-4 xl:flex">
                 @if (isAuthenticated)
                 {
-                    <a asp-controller="Error"
-                    asp-action="NotFoundPage"
-                    class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
+                    <a asp-controller="Classes"
+                           asp-action="Index"
+                           class="font-dm-sans text-base font-semibold whitespace-nowrap @(activePage == "Classes" ? "text-accent" : "text-white")">
                         Our Classes
                     </a>
 
@@ -245,9 +245,9 @@
 
             @if (isAuthenticated)
             {
-                <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-controller="Classes" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                    <span>Our Classes</span>
+                    <span class="@(activePage == "Classes" ? "underline underline-offset-4" : "")">Our Classes</span>
                 </a>
 
                 <div>
