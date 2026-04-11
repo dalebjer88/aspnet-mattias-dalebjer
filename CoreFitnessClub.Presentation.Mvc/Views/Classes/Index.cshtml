@@ -1,4 +1,4 @@
-﻿@model List<CoreFitnessClub.Application.Features.Classes.TrainingClassDto>
+﻿@model CoreFitnessClub.Presentation.Mvc.ViewModels.Classes.ClassesIndexViewModel
 
 @{
     ViewData["Title"] = "Our Classes";
@@ -20,8 +20,22 @@
                     </p>
                 </div>
 
+                @if (TempData["SuccessMessage"] is string successMessage)
+                {
+                    <div class="mt-4 rounded-2xl bg-background px-6 py-4">
+                        <p>@successMessage</p>
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] is string errorMessage)
+                {
+                    <div class="mt-4 rounded-2xl bg-background px-6 py-4">
+                        <p style="color: red;">@errorMessage</p>
+                    </div>
+                }
+
                 <div class="mt-4 flex flex-col gap-4">
-                    @if (Model.Count == 0)
+                    @if (Model.Classes.Count == 0)
                     {
                         <div class="rounded-2xl bg-background px-6 py-8 text-center">
                             <p>No classes available right now.</p>
@@ -29,8 +43,10 @@
                     }
                     else
                     {
-                        @foreach (var trainingClass in Model)
+                        @foreach (var trainingClass in Model.Classes)
                         {
+                            var isBooked = Model.BookedTrainingClassIds.Contains(trainingClass.Id);
+
                             <article class="rounded-2xl bg-background px-6 py-6">
                                 <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                                     <div class="flex flex-col gap-4">
@@ -51,9 +67,7 @@
                                             <h3>@trainingClass.Name</h3>
 
                                             <div class="flex flex-col gap-1 font-dm-sans text-base text-gray">
-                                                <p>
-                                                    @trainingClass.StartsAt.ToString("HH:mm") - @trainingClass.EndsAt.ToString("HH:mm")
-                                                </p>
+                                                <p>@trainingClass.StartsAt.ToString("HH:mm") - @trainingClass.EndsAt.ToString("HH:mm")</p>
 
                                                 @if (!string.IsNullOrWhiteSpace(trainingClass.InstructorName))
                                                 {
@@ -64,9 +78,23 @@
                                     </div>
 
                                     <div class="flex justify-start lg:justify-end">
-                                        <div class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
-                                            <span>Booking next</span>
-                                        </div>
+                                        @if (isBooked)
+                                        {
+                                            <div class="inline-flex items-center rounded-full bg-secondary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                                Booked
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="Bookings" asp-action="Book" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="trainingClassId" value="@trainingClass.Id" />
+                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                                <button type="submit" class="inline-flex items-center rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                                    Book class
+                                                </button>
+                                            </form>
+                                        }
                                     </div>
                                 </div>
                             </article>

@@ -5,6 +5,8 @@ using CoreFitnessClub.Presentation.Mvc.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using CoreFitnessClub.Application.Features.Bookings;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 
@@ -14,14 +16,17 @@ public class AccountController : Controller
     private readonly IAccountService _accountService;
     private readonly IReadMembershipService _readMembershipService;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly IBookingService _bookingService;
 
     public AccountController(
         IAccountService accountService,
         IReadMembershipService readMembershipService,
+        IBookingService bookingService,
         SignInManager<AppUser> signInManager)
     {
         _accountService = accountService;
         _readMembershipService = readMembershipService;
+        _bookingService = bookingService;
         _signInManager = signInManager;
     }
 
@@ -123,8 +128,16 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult MyBookings()
+    public async Task<IActionResult> MyBookings()
     {
-        return View();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return RedirectToAction("SignIn", "Auth");
+        }
+
+        var bookings = await _bookingService.GetUserBookingsAsync(userId);
+        return View(bookings);
     }
 }
