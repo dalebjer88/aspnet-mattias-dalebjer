@@ -39,9 +39,20 @@ public static class DependencyInjection
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 6;
             options.User.RequireUniqueEmail = true;
+            options.SignIn.RequireConfirmedEmail = true;
         })
             .AddEntityFrameworkStores<CoreFitnessClubDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                options.ClientId = configuration["Authentication:Google:ClientId"]
+                    ?? throw new InvalidOperationException("Google ClientId is not configured.");
+
+                options.ClientSecret = configuration["Authentication:Google:ClientSecret"]
+                    ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
+            });
 
         services.ConfigureApplicationCookie(options =>
         {

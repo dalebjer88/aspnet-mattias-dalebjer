@@ -8,22 +8,23 @@
 }
 
 <header class="relative bg-primary @headerRadiusClass">
-    <div class="grid grid-cols-2 items-center px-8 py-6 md:grid-cols-[auto_1fr_auto]">
+    <div class="grid grid-cols-2 items-center px-8 py-6 md:grid-cols-[auto_1fr_auto]" style="position: relative; z-index: 40;">
         <div class="justify-self-start">
-            <a asp-controller="Home" asp-action="Index">
+            <a asp-area="" asp-controller="Home" asp-action="Index">
                 <img src="~/images/CFC_logotype.svg" alt="Core Fitness Club logo" />
             </a>
         </div>
 
-        <nav class="hidden justify-self-center font-dm-sans text-base text-white md:flex md:items-center md:gap-6 xl:hidden">
-            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
-            <a asp-controller="Memberships"
-               asp-action="Index"
-               class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
+        <nav class="hidden justify-self-center font-dm-sans text-base text-white md:flex md:items-center md:gap-6 xl:hidden" style="position: relative; z-index: 50;">
+            <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-area=""
+                   asp-controller="Memberships"
+                   asp-action="Index"
+                   class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
                 Memberships
             </a>
 
-            <div class="relative">
+            <div class="relative" style="z-index: 9998;">
                 <button id="desktop-training-button"
                         type="button"
                         class="flex cursor-pointer items-center gap-2 font-semibold whitespace-nowrap text-white"
@@ -41,17 +42,19 @@
                     </svg>
                 </button>
 
-                <div id="desktop-training-menu" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
+                <div id="desktop-training-menu"
+                     class="hidden absolute left-0 top-full mt-3 rounded-2xl bg-accent text-primary"
+                     style="z-index: 9999; border: 2px solid black; padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;">
                     <div class="flex flex-col gap-3 font-dm-sans text-base">
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -60,15 +63,16 @@
             </div>
         </nav>
 
-        <nav class="hidden justify-self-center font-dm-sans text-base text-white xl:flex xl:items-center xl:gap-6">
-            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
-            <a asp-controller="Memberships"
-               asp-action="Index"
-               class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
+        <nav class="hidden justify-self-center font-dm-sans text-base text-white xl:flex xl:items-center xl:gap-6" style="position: relative; z-index: 50;">
+            <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Fitness Centers</a>
+            <a asp-area=""
+                   asp-controller="Memberships"
+                   asp-action="Index"
+                   class="font-semibold whitespace-nowrap @(activePage == "Memberships" ? "text-accent" : "text-white")">
                 Memberships
             </a>
 
-            <div class="relative">
+            <div class="relative" style="z-index: 9998;">
                 <button id="desktop-training-button-xl"
                         type="button"
                         class="flex cursor-pointer items-center gap-2 font-semibold whitespace-nowrap text-white"
@@ -86,17 +90,19 @@
                     </svg>
                 </button>
 
-                <div id="desktop-training-menu-xl" class="hidden absolute left-0 top-full z-20 mt-3 min-w-56 rounded-2xl bg-accent p-4 text-primary">
+                <div id="desktop-training-menu-xl"
+                     class="hidden absolute left-0 top-full mt-3 rounded-2xl bg-accent text-primary"
+                     style="z-index: 9999; border: 2px solid black; padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;">
                     <div class="flex flex-col gap-3 font-dm-sans text-base">
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold whitespace-nowrap">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -104,58 +110,72 @@
                 </div>
             </div>
 
-            <a asp-controller="CustomerService"
-               asp-action="Index"
-               class="font-semibold whitespace-nowrap @(activePage == "CustomerService" ? "text-accent" : "text-white")">
+            <a asp-area=""
+                   asp-controller="CustomerService"
+                   asp-action="Index"
+                   class="font-semibold whitespace-nowrap @(activePage == "CustomerService" ? "text-accent" : "text-white")">
                 Customer Service
             </a>
-
-            <a asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Store</a>
+            <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="font-semibold whitespace-nowrap">Store</a>
+            
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-area="Admin"
+                       asp-controller="Classes"
+                       asp-action="Index"
+                       class="font-dm-sans text-base font-semibold whitespace-nowrap @(activePage == "Admin" ? "text-accent" : "text-white")">
+                    Admin
+                </a>
+            }
         </nav>
 
         <div class="justify-self-end">
             <div class="hidden items-center gap-4 xl:flex">
                 @if (isAuthenticated)
                 {
-                    <a asp-controller="Classes"
+                    <a asp-area=""
+                           asp-controller="Classes"
                            asp-action="Index"
                            class="font-dm-sans text-base font-semibold whitespace-nowrap @(activePage == "Classes" ? "text-accent" : "text-white")">
                         Our Classes
                     </a>
 
-                    <a asp-controller="Account"
-                    asp-action="AboutMe"
-                    class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                    <a asp-area=""
+                           asp-controller="Account"
+                           asp-action="AboutMe"
+                           class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
                         <span>My Account</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor">
+                             class="h-5 w-5"
+                             viewBox="0 0 20 20"
+                             fill="currentColor">
                             <path fill-rule="evenodd"
-                                d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
-                                clip-rule="evenodd" />
+                                  d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                  clip-rule="evenodd" />
                         </svg>
                     </a>
                 }
                 else
                 {
-                    <a asp-controller="Auth"
-                    asp-action="SignUp"
-                    class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
+                    <a asp-area=""
+                           asp-controller="Auth"
+                           asp-action="SignUp"
+                           class="font-dm-sans text-base font-semibold text-white whitespace-nowrap">
                         Become Member
                     </a>
 
-                    <a asp-controller="Auth"
-                    asp-action="SignIn"
-                    class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                    <a asp-area=""
+                           asp-controller="Auth"
+                           asp-action="SignIn"
+                           class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
                         <span>Sign In</span>
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor">
+                             class="h-5 w-5"
+                             viewBox="0 0 20 20"
+                             fill="currentColor">
                             <path fill-rule="evenodd"
-                                d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
-                                clip-rule="evenodd" />
+                                  d="M7.22 4.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 010-1.06z"
+                                  clip-rule="evenodd" />
                         </svg>
                     </a>
                 }
@@ -178,16 +198,17 @@
     <div id="mobile-menu" class="hidden absolute left-0 top-full z-30 w-full px-4 xl:hidden">
         <nav class="flex flex-col gap-4 rounded-2xl bg-accent p-6 font-dm-sans text-base text-primary">
             <div class="md:hidden">
-                <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span>Fitness Centers</span>
                 </a>
             </div>
 
             <div class="md:hidden">
-                <a asp-controller="Memberships"
-                   asp-action="Index"
-                   class="inline-flex items-center gap-3 font-semibold text-primary">
+                <a asp-area=""
+                       asp-controller="Memberships"
+                       asp-action="Index"
+                       class="inline-flex items-center gap-3 font-semibold text-primary">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span class="@(activePage == "Memberships" ? "underline underline-offset-4" : "")">Memberships</span>
                 </a>
@@ -213,17 +234,19 @@
                     </svg>
                 </button>
 
-                <div id="mobile-training-menu" class="hidden mt-3 pl-4">
+                <div id="mobile-training-menu"
+                     class="hidden mt-3 rounded-2xl"
+                     style="border: 2px solid black; padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;">
                     <div class="flex flex-col gap-3">
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Personal Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Group Training</span>
                         </a>
-                        <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+                        <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                             <span>Padel</span>
                         </a>
@@ -231,27 +254,36 @@
                 </div>
             </div>
 
-            <a asp-controller="CustomerService"
-               asp-action="Index"
-               class="inline-flex items-center gap-3 font-semibold text-primary">
+            <a asp-area=""
+                   asp-controller="CustomerService"
+                   asp-action="Index"
+                   class="inline-flex items-center gap-3 font-semibold text-primary">
                 <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                 <span class="@(activePage == "CustomerService" ? "underline underline-offset-4" : "")">Customer Service</span>
             </a>
 
-            <a asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
+            <a asp-area="" asp-controller="Error" asp-action="NotFoundPage" class="inline-flex items-center gap-3 font-semibold">
                 <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                 <span>Store</span>
             </a>
 
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-area="Admin" asp-controller="Classes" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span class="@(activePage == "Admin" ? "underline underline-offset-4" : "")">Admin</span>
+                </a>
+            }
+
             @if (isAuthenticated)
             {
-                <a asp-controller="Classes" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-area="" asp-controller="Classes" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span class="@(activePage == "Classes" ? "underline underline-offset-4" : "")">Our Classes</span>
                 </a>
 
                 <div>
-                    <a asp-controller="Account" asp-action="AboutMe" class="inline-flex items-center gap-3 font-semibold">
+                    <a asp-area="" asp-controller="Account" asp-action="AboutMe" class="inline-flex items-center gap-3 font-semibold">
                         <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                         <span>My Account</span>
                     </a>
@@ -259,13 +291,13 @@
             }
             else
             {
-                <a asp-controller="Auth" asp-action="SignUp" class="inline-flex items-center gap-3 font-semibold">
+                <a asp-area="" asp-controller="Auth" asp-action="SignUp" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                     <span>Become Member</span>
                 </a>
 
                 <div>
-                    <a asp-controller="Auth" asp-action="SignIn" class="inline-flex items-center gap-3 font-semibold">
+                    <a asp-area="" asp-controller="Auth" asp-action="SignIn" class="inline-flex items-center gap-3 font-semibold">
                         <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
                         <span>Sign In</span>
                     </a>

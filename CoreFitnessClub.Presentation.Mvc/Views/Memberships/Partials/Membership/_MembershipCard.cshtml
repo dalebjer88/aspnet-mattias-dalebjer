@@ -50,19 +50,33 @@
                     </p>
                 </div>
 
-                <form asp-controller="Memberships" asp-action="Create" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="MembershipPlanId" value="@Model.Id" />
-
-                    <button type="submit"
-                            class="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-dm-sans font-semibold text-primary">
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="inline-flex items-center gap-2 rounded-full bg-gray-light px-7 py-4 font-dm-sans font-semibold text-primary opacity-70">
                         Join Now
                         <svg width="8" height="15" viewBox="0 0 8 15" fill="none">
                             <path d="M7.62504 6.53125C7.90629 6.8125 7.90629 7.3125 7.62504 7.59375L1.37504 13.8438C1.06254 14.125 0.593791 14.125 0.312541 13.8438C4.1008e-05 13.5625 4.1008e-05 13.0625 0.312541 12.7812L6.03129 7.0625L0.312541 1.34375C4.1008e-05 1.0625 4.1008e-05 0.5625 0.312541 0.28125C0.593791 0 1.06254 0 1.37504 0.28125L7.62504 6.53125Z"
                                   fill="#27252F" />
                         </svg>
-                    </button>
-                </form>
+                    </div>
+
+                }
+                else
+                {
+                    <form asp-controller="Memberships" asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="MembershipPlanId" value="@Model.Id" />
+
+                        <button type="submit"
+                                class="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-dm-sans font-semibold text-primary">
+                            Join Now
+                            <svg width="8" height="15" viewBox="0 0 8 15" fill="none">
+                                <path d="M7.62504 6.53125C7.90629 6.8125 7.90629 7.3125 7.62504 7.59375L1.37504 13.8438C1.06254 14.125 0.593791 14.125 0.312541 13.8438C4.1008e-05 13.5625 4.1008e-05 13.0625 0.312541 12.7812L6.03129 7.0625L0.312541 1.34375C4.1008e-05 1.0625 4.1008e-05 0.5625 0.312541 0.28125C0.593791 0 1.06254 0 1.37504 0.28125L7.62504 6.53125Z"
+                                      fill="#27252F" />
+                            </svg>
+                        </button>
+                    </form>
+                }
             </div>
 
             <hr class="border-t border-primary" />

@@ -46,6 +46,7 @@
                         @foreach (var trainingClass in Model.Classes)
                         {
                             var isBooked = Model.BookedTrainingClassIds.Contains(trainingClass.Id);
+                            var isAdmin = User.IsInRole("Admin");
 
                             <article class="rounded-2xl bg-background px-6 py-6">
                                 <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -78,7 +79,13 @@
                                     </div>
 
                                     <div class="flex justify-start lg:justify-end">
-                                        @if (isBooked)
+                                        @if (isAdmin)
+                                        {
+                                            <div class="inline-flex items-center rounded-full bg-gray-light px-6 py-4 font-dm-sans text-sm font-semibold text-primary opacity-70">
+                                                Book class
+                                            </div>
+                                        }
+                                        else if (isBooked)
                                         {
                                             <div class="inline-flex items-center rounded-full bg-secondary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
                                                 Booked

@@ -1,8 +1,8 @@
 ﻿using CoreFitnessClub.Application.Features.Account;
-using Microsoft.Extensions.DependencyInjection;
-using CoreFitnessClub.Application.Features.Memberships;
-using CoreFitnessClub.Application.Features.Classes;
 using CoreFitnessClub.Application.Features.Bookings;
+using CoreFitnessClub.Application.Features.Classes;
+using CoreFitnessClub.Application.Features.Memberships;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreFitnessClub.Application;
 
@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IMembershipService, MembershipService>();
         services.AddScoped<IReadTrainingClassService, ReadTrainingClassService>();
         services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<IManageTrainingClassService, ManageTrainingClassService>();
         return services;
     }
 }

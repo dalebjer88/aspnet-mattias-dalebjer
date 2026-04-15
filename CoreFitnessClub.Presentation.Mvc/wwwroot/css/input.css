@@ -1,5 +1,6 @@
 ﻿@import "tailwindcss";
 @import "./fonts.css";
+@import "./external-provider.css" layer(components);
 
 @theme {
   --font-poppins: "Poppins", sans-serif;
@@ -132,4 +133,8 @@
   .hamburger-button.is-open .hamburger-icon::after {
     transform: translateY(0) rotate(-45deg);
   }
+
+    .gsi-material-button .gsi-material-button-icon {
+        box-sizing: content-box;
+    }
 }

@@ -25,7 +25,7 @@ public class MembershipPlanConfiguration : IEntityTypeConfiguration<MembershipPl
         builder.Property(x => x.TrialWeeks)
             .IsRequired();
 
-        builder.HasMany<MembershipPlanFeature>()
+        builder.HasMany(x => x.Features)
             .WithOne()
             .HasForeignKey(x => x.MembershipPlanId)
             .OnDelete(DeleteBehavior.Cascade);

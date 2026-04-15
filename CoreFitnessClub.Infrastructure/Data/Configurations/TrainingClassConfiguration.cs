@@ -17,9 +17,11 @@ public class TrainingClassConfiguration : IEntityTypeConfiguration<TrainingClass
             .HasMaxLength(100);
 
         builder.Property(x => x.Category)
+            .IsRequired()
             .HasMaxLength(100);
 
         builder.Property(x => x.InstructorName)
+            .IsRequired()
             .HasMaxLength(100);
 
         builder.Property(x => x.StartsAt)

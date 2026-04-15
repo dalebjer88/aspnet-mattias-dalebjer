@@ -25,4 +25,19 @@ public class TrainingClassRepository : ITrainingClassRepository
         return await _dbContext.TrainingClasses
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task AddAsync(TrainingClass trainingClass, CancellationToken cancellationToken = default)
+    {
+        await _dbContext.TrainingClasses.AddAsync(trainingClass, cancellationToken);
+    }
+
+    public void Remove(TrainingClass trainingClass)
+    {
+        _dbContext.TrainingClasses.Remove(trainingClass);
+    }
+
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

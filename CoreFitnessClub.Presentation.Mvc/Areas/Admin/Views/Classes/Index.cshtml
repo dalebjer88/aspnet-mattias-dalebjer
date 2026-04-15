@@ -1,0 +1,198 @@
+﻿@model CoreFitnessClub.Presentation.Mvc.Areas.Admin.ViewModels.Classes.AdminClassesIndexViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Admin";
+    ViewData["HeaderVariant"] = "Default";
+    ViewData["ActivePage"] = "Admin";
+}
+
+<section class="px-4 py-4">
+    <div class="mx-auto max-w-472">
+        <div class="flex flex-col gap-6">
+            <div class="rounded-2xl bg-white px-6 py-8 md:px-10">
+                <div class="flex flex-col gap-3">
+                    <p class="font-dm-sans text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+                        Admin
+                    </p>
+                    <h2>Manage Classes</h2>
+                    <p>
+                        Add new classes and review the classes currently available in the system.
+                    </p>
+                </div>
+            </div>
+
+            @if (TempData["SuccessMessage"] is string successMessage)
+            {
+                <div class="rounded-2xl bg-white px-6 py-4">
+                    <p>@successMessage</p>
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] is string errorMessage)
+            {
+                <div class="rounded-2xl bg-white px-6 py-4">
+                    <p style="color: red;">@errorMessage</p>
+                </div>
+            }
+
+            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+                <div class="rounded-2xl bg-white px-6 py-8">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <h3>Add Class</h3>
+                            <p class="font-dm-sans text-base text-gray">
+                                Fill in the class details below.
+                            </p>
+                        </div>
+
+                        <form asp-area="Admin" asp-controller="Classes" asp-action="Create" method="post" class="flex flex-col gap-5">
+                            @Html.AntiForgeryToken()
+
+                            <div class="flex flex-col gap-1">
+                                <p class="font-dm-sans text-sm text-gray">Fields marked with * are required.</p>
+                                <div asp-validation-summary="ModelOnly" class="text-sm" style="color: red;"></div>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label asp-for="Form.Name" class="font-dm-sans text-sm font-semibold text-primary">
+                                    Class name *
+                                </label>
+                                <input asp-for="Form.Name"
+                                       placeholder="Example: Morning Yoga"
+                                       class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                <p class="font-dm-sans text-sm text-gray">Enter the name that should be shown in the class list.</p>
+                                <span asp-validation-for="Form.Name" class="text-sm" style="color: red;"></span>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label asp-for="Form.Category" class="font-dm-sans text-sm font-semibold text-primary">
+                                    Category *
+                                </label>
+                                <input asp-for="Form.Category"
+                                       placeholder="Example: Yoga"
+                                       class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                <p class="font-dm-sans text-sm text-gray">Use a short category such as Yoga, Strength or Cardio.</p>
+                                <span asp-validation-for="Form.Category" class="text-sm" style="color: red;"></span>
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label asp-for="Form.InstructorName" class="font-dm-sans text-sm font-semibold text-primary">
+                                    Instructor name *
+                                </label>
+                                <input asp-for="Form.InstructorName"
+                                       placeholder="Example: Anna Berg"
+                                       class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                <p class="font-dm-sans text-sm text-gray">Enter the instructor name exactly as it should be shown.</p>
+                                <span asp-validation-for="Form.InstructorName" class="text-sm" style="color: red;"></span>
+                            </div>
+
+                            <div class="grid gap-4 md:grid-cols-3">
+                                <div class="flex flex-col gap-2">
+                                    <label asp-for="Form.Date" class="font-dm-sans text-sm font-semibold text-primary">
+                                        Class date *
+                                    </label>
+                                    <input asp-for="Form.Date"
+                                           type="date"
+                                           min="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")"
+                                           class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                    <p class="font-dm-sans text-sm text-gray">Choose the day the class takes place.</p>
+                                    <span asp-validation-for="Form.Date" class="text-sm" style="color: red;"></span>
+                                </div>
+
+                                <div class="flex flex-col gap-2">
+                                    <label asp-for="Form.StartTime" class="font-dm-sans text-sm font-semibold text-primary">
+                                        Start time *
+                                    </label>
+                                    <input asp-for="Form.StartTime"
+                                           type="time"
+                                           class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                    <p class="font-dm-sans text-sm text-gray">Use 24-hour format.</p>
+                                    <span asp-validation-for="Form.StartTime" class="text-sm" style="color: red;"></span>
+                                </div>
+
+                                <div class="flex flex-col gap-2">
+                                    <label asp-for="Form.EndTime" class="font-dm-sans text-sm font-semibold text-primary">
+                                        End time *
+                                    </label>
+                                    <input asp-for="Form.EndTime"
+                                           type="time"
+                                           class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
+                                    <p class="font-dm-sans text-sm text-gray">Must be later than the start time.</p>
+                                    <span asp-validation-for="Form.EndTime" class="text-sm" style="color: red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="pt-2">
+                                <button type="submit"
+                                        class="inline-flex items-center rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                    Save Class
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-white px-6 py-8">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <h3>Current Classes</h3>
+                            <p class="font-dm-sans text-base text-gray">
+                                Review the classes that are currently available.
+                            </p>
+                        </div>
+
+                        @if (Model.Classes.Count == 0)
+                        {
+                            <div class="rounded-2xl bg-background px-6 py-8 text-center">
+                                <p>No classes available right now.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="flex flex-col gap-4">
+                                @foreach (var trainingClass in Model.Classes)
+                                {
+                                    <article class="rounded-2xl bg-background px-6 py-6">
+                                        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                                            <div class="flex flex-col gap-4">
+                                                <div class="flex flex-wrap items-center gap-3">
+                                                    <span class="rounded-full bg-accent px-4 py-2 font-dm-sans text-sm font-semibold text-primary">
+                                                        @trainingClass.Category
+                                                    </span>
+
+                                                    <span class="font-dm-sans text-sm text-gray">
+                                                        @trainingClass.StartsAt.ToString("dddd, dd MMMM")
+                                                    </span>
+                                                </div>
+
+                                                <div class="flex flex-col gap-1">
+                                                    <h3>@trainingClass.Name</h3>
+                                                    <p class="font-dm-sans text-base text-gray">
+                                                        @trainingClass.StartsAt.ToString("HH:mm") - @trainingClass.EndsAt.ToString("HH:mm")
+                                                    </p>
+                                                    <p class="font-dm-sans text-base text-gray">
+                                                        Instructor: @trainingClass.InstructorName
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <form asp-area="Admin" asp-controller="Classes" asp-action="Delete" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@trainingClass.Id" />
+                                                <button type="submit"
+                                                        class="inline-flex items-center rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </article>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

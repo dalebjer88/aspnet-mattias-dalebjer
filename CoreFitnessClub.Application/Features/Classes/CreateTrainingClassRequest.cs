@@ -1,11 +1,11 @@
 ﻿namespace CoreFitnessClub.Application.Features.Classes;
 
-public class TrainingClassDto
+public class CreateTrainingClassRequest
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string InstructorName { get; set; } = string.Empty;
-    public DateTime StartsAt { get; set; }
-    public DateTime EndsAt { get; set; }
+    public DateOnly Date { get; set; }
+    public TimeOnly StartTime { get; set; }
+    public TimeOnly EndTime { get; set; }
 }

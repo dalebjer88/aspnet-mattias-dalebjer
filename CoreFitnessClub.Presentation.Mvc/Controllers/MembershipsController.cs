@@ -30,6 +30,12 @@ public class MembershipsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateMembershipRequest request)
     {
+        if (User.IsInRole("Admin"))
+        {
+            TempData["MembershipError"] = "Admin accounts cannot create memberships.";
+            return RedirectToAction(nameof(Index));
+        }
+
         var result = await _membershipService.CreateMembershipAsync(request);
 
         if (!result.Succeeded)

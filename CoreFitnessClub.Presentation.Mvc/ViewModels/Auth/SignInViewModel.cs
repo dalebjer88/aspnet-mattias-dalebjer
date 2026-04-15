@@ -14,4 +14,8 @@ public class SignInViewModel
 
     [Display(Name = "Remember me")]
     public bool RememberMe { get; set; }
+
+    public string? ReturnUrl { get; set; }
+
+    public List<string> ExternalProviders { get; set; } = [];
 }
