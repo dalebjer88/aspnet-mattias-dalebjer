@@ -2,11 +2,12 @@
 
 namespace CoreFitnessClub.Presentation.Mvc.ViewModels.Auth;
 
-public class SignUpViewModel
+public class VerifySignUpEmailViewModel
 {
-    [Required]
-    [EmailAddress]
     public string Email { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Code is required.")]
+    public string Code { get; set; } = string.Empty;
+
     public string? ReturnUrl { get; set; }
-    public List<string> ExternalProviders { get; set; } = [];
 }

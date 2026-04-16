@@ -10,4 +10,5 @@ public interface IBookingRepository
     Task AddAsync(Booking booking, CancellationToken cancellationToken = default);
     void Remove(Booking booking);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task RemoveByUserIdAsync(string userId, CancellationToken cancellationToken = default);
 }

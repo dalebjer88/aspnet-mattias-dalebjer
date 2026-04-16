@@ -23,9 +23,22 @@ public class AuthController : Controller
     }
 
     [HttpGet]
-    public IActionResult SignUp()
+    public async Task<IActionResult> SignUp(string? returnUrl = null)
     {
-        return View(new SignUpViewModel());
+        var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+
+        var vm = new SignUpViewModel
+        {
+            ReturnUrl = returnUrl,
+            ExternalProviders = [.. schemes.Select(x => x.Name)]
+        };
+
+        return View(vm);
+    }
+    private async Task PopulateExternalProvidersAsync(SignUpViewModel model)
+    {
+        var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+        model.ExternalProviders = [.. schemes.Select(x => x.Name)];
     }
 
     [HttpPost]
@@ -34,6 +47,7 @@ public class AuthController : Controller
     {
         if (!ModelState.IsValid)
         {
+            await PopulateExternalProvidersAsync(model);
             return View(model);
         }
 
@@ -41,11 +55,53 @@ public class AuthController : Controller
 
         if (existingUser is not null)
         {
-            ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
+            var hasPassword = await _userManager.HasPasswordAsync(existingUser);
+
+            if (hasPassword)
+            {
+                ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
+                await PopulateExternalProvidersAsync(model);
+                return View(model);
+            }
+        }
+
+        TempData["PendingSignUpEmail"] = model.Email;
+
+        return RedirectToAction(nameof(VerifySignUpEmail));
+    }
+
+    [HttpGet]
+    public IActionResult VerifySignUpEmail()
+    {
+        if (TempData["PendingSignUpEmail"] is not string email || string.IsNullOrWhiteSpace(email))
+        {
+            return RedirectToAction(nameof(SignUp));
+        }
+
+        TempData["PendingSignUpEmail"] = email;
+
+        return View(new VerifySignUpEmailViewModel
+        {
+            Email = email
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult VerifySignUpEmail(VerifySignUpEmailViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
             return View(model);
         }
 
-        TempData["SignUpEmail"] = model.Email;
+        if (!string.Equals(model.Code, "123456", StringComparison.Ordinal))
+        {
+            ModelState.AddModelError(nameof(model.Code), "Invalid verification code.");
+            return View(model);
+        }
+
+        TempData["VerifiedSignUpEmail"] = model.Email;
 
         return RedirectToAction(nameof(SetPassword));
     }
@@ -53,12 +109,12 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult SetPassword()
     {
-        if (TempData["SignUpEmail"] is not string email || string.IsNullOrWhiteSpace(email))
+        if (TempData["VerifiedSignUpEmail"] is not string email || string.IsNullOrWhiteSpace(email))
         {
             return RedirectToAction(nameof(SignUp));
         }
 
-        TempData["SignUpEmail"] = email;
+        TempData["VerifiedSignUpEmail"] = email;
 
         return View(new SetPasswordViewModel
         {
@@ -70,34 +126,76 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
     {
+        if (TempData["VerifiedSignUpEmail"] is not string verifiedEmail ||
+            string.IsNullOrWhiteSpace(verifiedEmail) ||
+            !string.Equals(verifiedEmail, model.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToAction(nameof(SignUp));
+        }
+
         if (!ModelState.IsValid)
         {
+            TempData["VerifiedSignUpEmail"] = model.Email;
             return View(model);
         }
 
         var existingUser = await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser is not null)
+        IdentityResult passwordResult;
+        AppUser user;
+
+        if (existingUser is null)
         {
-            ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
-            return View(model);
+            user = new AppUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                EmailConfirmed = true
+            };
+
+            passwordResult = await _userManager.CreateAsync(user, model.Password);
+        }
+        else
+        {
+            var hasPassword = await _userManager.HasPasswordAsync(existingUser);
+
+            if (hasPassword)
+            {
+                ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
+                TempData["VerifiedSignUpEmail"] = model.Email;
+                return View(model);
+            }
+
+            if (!existingUser.EmailConfirmed)
+            {
+                existingUser.EmailConfirmed = true;
+
+                var updateResult = await _userManager.UpdateAsync(existingUser);
+
+                if (!updateResult.Succeeded)
+                {
+                    foreach (var error in updateResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    TempData["VerifiedSignUpEmail"] = model.Email;
+                    return View(model);
+                }
+            }
+
+            user = existingUser;
+            passwordResult = await _userManager.AddPasswordAsync(user, model.Password);
         }
 
-        var user = new AppUser
+        if (!passwordResult.Succeeded)
         {
-            UserName = model.Email,
-            Email = model.Email
-        };
-
-        var createUserResult = await _userManager.CreateAsync(user, model.Password);
-
-        if (!createUserResult.Succeeded)
-        {
-            foreach (var error in createUserResult.Errors)
+            foreach (var error in passwordResult.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
+            TempData["VerifiedSignUpEmail"] = model.Email;
             return View(model);
         }
 
@@ -141,7 +239,7 @@ public class AuthController : Controller
     [HttpGet]
     public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
     {
-        if (remoteError is not null) 
+        if (remoteError is not null)
         {
             _logger.LogWarning("Remote error during external login: {RemoteError}", remoteError);
             return ExternalLoginFailed(returnUrl);
@@ -153,10 +251,26 @@ public class AuthController : Controller
 
         var (info, email) = externalUser.Value;
 
-        var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+        var result = await _signInManager.ExternalLoginSignInAsync(
+            info.LoginProvider,
+            info.ProviderKey,
+            isPersistent: false,
+            bypassTwoFactor: true);
 
         if (result.Succeeded)
             return RedirectToLocal(returnUrl);
+
+        if (result.IsLockedOut)
+        {
+            TempData["ExternalLoginError"] = "This account is locked.";
+            return RedirectToAction(nameof(SignIn), new { returnUrl });
+        }
+
+        if (result.IsNotAllowed)
+        {
+            TempData["ExternalLoginError"] = "This account is not allowed to sign in.";
+            return RedirectToAction(nameof(SignIn), new { returnUrl });
+        }
 
         return await ExternalVerification(email, returnUrl);
     }
@@ -218,15 +332,50 @@ public class AuthController : Controller
 
     private async Task<IActionResult> LinkExistingUser(AppUser user, ExternalLoginInfo info, string? returnUrl = null)
     {
+        var alreadyLinkedUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+        if (alreadyLinkedUser is not null)
+        {
+            if (alreadyLinkedUser.Id == user.Id)
+            {
+                await _signInManager.SignInAsync(alreadyLinkedUser, isPersistent: false);
+                return RedirectToLocal(returnUrl);
+            }
+
+            _logger.LogWarning(
+                "External login {Provider}/{ProviderKey} is already linked to another user.",
+                info.LoginProvider,
+                info.ProviderKey);
+
+            return ExternalLoginFailed(returnUrl);
+        }
+
+        if (!user.EmailConfirmed)
+        {
+            user.EmailConfirmed = true;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                _logger.LogError("Failed to confirm email for {Email}. Errors: {Errors}",
+                    user.Email,
+                    string.Join(",", updateResult.Errors.Select(x => x.Description)));
+
+                return ExternalLoginFailed(returnUrl);
+            }
+        }
+
         var result = await _userManager.AddLoginAsync(user, info);
+
         if (!result.Succeeded)
         {
             _logger.LogError("Failed to link {Provider} to {Email}. Errors: {Errors}",
                 info.LoginProvider,
                 user.Email,
-                string.Join(",", result.Errors.Select(x => x.Description))
-                );
-                return ExternalLoginFailed(returnUrl);
+                string.Join(",", result.Errors.Select(x => x.Description)));
+
+            return ExternalLoginFailed(returnUrl);
         }
 
         await _signInManager.SignInAsync(user, isPersistent: false);
@@ -252,7 +401,16 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
+        user = await _userManager.FindByIdAsync(user.Id);
+
+        if (user is null)
+        {
+            _logger.LogError("Failed to reload created user for {Email}.", email);
+            return ExternalLoginFailed(returnUrl);
+        }
+
         var linkResult = await _userManager.AddLoginAsync(user, info);
+
         if (!linkResult.Succeeded)
         {
             _logger.LogError("Failed to link {Provider} to {Email}. Errors: {Errors}",
@@ -266,16 +424,6 @@ public class AuthController : Controller
         await _signInManager.SignInAsync(user, isPersistent: false);
         return RedirectToLocal(returnUrl);
     }
-
-
-
-
-
-
-
-
-
-
 
     private async Task<(ExternalLoginInfo info, string Email)?> GetExternalUserInfo() 
     {

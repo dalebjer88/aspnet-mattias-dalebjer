@@ -91,6 +91,12 @@
                                                 Booked
                                             </div>
                                         }
+                                        else if (!Model.HasActiveMembership)
+                                        {
+                                            <a asp-controller="Memberships" asp-action="Index" class="inline-flex items-center rounded-full bg-gray-light px-6 py-4 font-dm-sans text-sm font-semibold text-primary">
+                                                Get membership
+                                            </a>
+                                        }
                                         else
                                         {
                                             <form asp-controller="Bookings" asp-action="Book" method="post">

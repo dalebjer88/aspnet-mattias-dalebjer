@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
+using CoreFitnessClub.Domain.Entities;
 
 namespace CoreFitnessClub.Application.Features.Memberships;
 
@@ -28,6 +29,23 @@ public class ReadMembershipService : IReadMembershipService
             TrialWeeks = x.TrialWeeks,
             Features = x.Features.Select(feature => feature.Text).ToList()
         }).ToList();
+    }
+
+    public async Task<bool> HasActiveMembershipAsync(CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+        {
+            return false;
+        }
+
+        var membership = await _membershipRepository.GetByUserIdAsync(_currentUserService.UserId, cancellationToken);
+
+        if (membership is null)
+        {
+            return false;
+        }
+
+        return membership.Status == MembershipStatus.Active;
     }
 
     public async Task<MyMembershipDto?> GetMyMembershipAsync(CancellationToken cancellationToken = default)

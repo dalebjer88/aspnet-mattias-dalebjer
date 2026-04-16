@@ -7,13 +7,16 @@ public class IdentityUserService : IIdentityUserService
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IBookingRepository _bookingRepository;
 
     public IdentityUserService(
         UserManager<AppUser> userManager,
-        ICurrentUserService currentUserService)
+        ICurrentUserService currentUserService,
+        IBookingRepository bookingRepository)
     {
         _userManager = userManager;
         _currentUserService = currentUserService;
+        _bookingRepository = bookingRepository;
     }
 
     public async Task<bool> DeleteCurrentUserAsync(CancellationToken cancellationToken = default)
@@ -28,6 +31,24 @@ public class IdentityUserService : IIdentityUserService
         if (user is null)
         {
             return true;
+        }
+
+        await _bookingRepository.RemoveByUserIdAsync(user.Id, cancellationToken);
+        await _bookingRepository.SaveChangesAsync(cancellationToken);
+
+        var logins = await _userManager.GetLoginsAsync(user);
+
+        foreach (var login in logins)
+        {
+            var removeLoginResult = await _userManager.RemoveLoginAsync(
+                user,
+                login.LoginProvider,
+                login.ProviderKey);
+
+            if (!removeLoginResult.Succeeded)
+            {
+                return false;
+            }
         }
 
         var result = await _userManager.DeleteAsync(user);

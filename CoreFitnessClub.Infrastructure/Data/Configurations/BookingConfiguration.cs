@@ -1,6 +1,7 @@
 ﻿using CoreFitnessClub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CoreFitnessClub.Infrastructure.Identity;
 
 namespace CoreFitnessClub.Infrastructure.Data.Configurations;
 
@@ -27,6 +28,11 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.HasOne<TrainingClass>()
             .WithMany()
             .HasForeignKey(x => x.TrainingClassId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne<AppUser>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

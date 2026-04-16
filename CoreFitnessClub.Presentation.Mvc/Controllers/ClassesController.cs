@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using CoreFitnessClub.Application.Features.Bookings;
 using CoreFitnessClub.Application.Features.Classes;
+using CoreFitnessClub.Application.Features.Memberships;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,16 @@ public class ClassesController : Controller
 {
     private readonly IReadTrainingClassService _readTrainingClassService;
     private readonly IBookingService _bookingService;
+    private readonly IReadMembershipService _readMembershipService;
 
     public ClassesController(
         IReadTrainingClassService readTrainingClassService,
-        IBookingService bookingService)
+        IBookingService bookingService,
+        IReadMembershipService readMembershipService)
     {
         _readTrainingClassService = readTrainingClassService;
         _bookingService = bookingService;
+        _readMembershipService = readMembershipService;
     }
 
     [HttpGet]
@@ -37,10 +41,13 @@ public class ClassesController : Controller
                 .ToHashSet();
         }
 
+        var hasActiveMembership = await _readMembershipService.HasActiveMembershipAsync();
+
         var model = new ClassesIndexViewModel
         {
             Classes = classes,
-            BookedTrainingClassIds = bookedTrainingClassIds
+            BookedTrainingClassIds = bookedTrainingClassIds,
+            HasActiveMembership = hasActiveMembership
         };
 
         return View(model);

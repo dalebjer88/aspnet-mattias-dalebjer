@@ -14,10 +14,21 @@
 
         <div class="mb-16 h-px flex-1 bg-gray-light"></div>
 
-        <div class="flex justify-center gap-4">
-            <img src="~/images/google.svg" alt="google button" />
-            <img src="~/images/facebook.svg" alt="facebook button" />
-            <img src="~/images/github.svg" alt="github button" />
+        <div class="flex justify-center gap-10">
+            @if (Model.ExternalProviders.Any())
+            {
+                <form asp-controller="Auth" asp-action="ExternalLogin" method="post">
+                    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+
+                    @foreach (var provider in Model.ExternalProviders)
+                    {
+                        <partial name="ExternalProviders/_@(provider)Button" />
+                    }
+                </form>
+            }
+
+            <partial name="ExternalProviders/_FacebookButton" />
+            <partial name="ExternalProviders/_GitHubButton" />
         </div>
 
         <div class="my-8 mt-16 flex items-center gap-4">

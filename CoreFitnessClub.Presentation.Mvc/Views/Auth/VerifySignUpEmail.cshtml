@@ -1,0 +1,37 @@
+﻿@model VerifySignUpEmailViewModel
+
+<section class="flex items-center justify-center px-4 py-36">
+    <div class="max-w-2/5 bg-white rounded-xs shadow-sm p-16 flex flex-col gap-8">
+        <div class="space-y-2">
+            <h1>Verify your email</h1>
+            <p>
+                A verification code has been sent to <strong>@Model.Email</strong>.
+                Enter the code below to continue.
+            </p>
+            <p>Demo code: <strong>123456</strong></p>
+        </div>
+
+        <hr class="border-t border-gray-light" />
+
+        <form asp-controller="Auth" asp-action="VerifySignUpEmail" method="post" class="flex flex-col gap-4">
+            <input asp-for="Email" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <div class="flex flex-col gap-2">
+                <label asp-for="Code">Verification code:</label>
+                <input asp-for="Code" class="border border-gray-light rounded-[10px] p-2" />
+                <span asp-validation-for="Code" class="text-red-500 text-sm"></span>
+            </div>
+
+            <p class="text-sm text-gray-500">
+                By verifying, you agree to our
+                <a href="/terms" class="underline">terms of service</a> and
+                <a href="/privacy" class="underline">privacy policy</a>.
+            </p>
+
+            <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                Verify
+            </button>
+        </form>
+    </div>
+</section>

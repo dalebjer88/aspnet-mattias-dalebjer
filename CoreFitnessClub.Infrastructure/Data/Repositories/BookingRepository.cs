@@ -57,4 +57,18 @@ public class BookingRepository : IBookingRepository
     {
         return _dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task RemoveByUserIdAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        var bookings = await _dbContext.Bookings
+            .Where(x => x.UserId == userId)
+            .ToListAsync(cancellationToken);
+
+        if (bookings.Count == 0)
+        {
+            return;
+        }
+
+        _dbContext.Bookings.RemoveRange(bookings);
+    }
 }
