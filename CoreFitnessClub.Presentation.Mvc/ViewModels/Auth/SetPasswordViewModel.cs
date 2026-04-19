@@ -16,4 +16,5 @@ public class SetPasswordViewModel
     [DataType(DataType.Password)]
     [Compare(nameof(Password))]
     public string ConfirmPassword { get; set; } = string.Empty;
+    public string? ReturnUrl { get; set; }
 }

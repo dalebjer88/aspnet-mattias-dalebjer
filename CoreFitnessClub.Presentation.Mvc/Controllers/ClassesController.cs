@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Member,Admin")]
 public class ClassesController : Controller
 {
     private readonly IReadTrainingClassService _readTrainingClassService;

@@ -40,6 +40,7 @@
         </div>
 
         <form asp-controller="Auth" asp-action="SignUp" method="post">
+            <input asp-for="ReturnUrl" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
 
             <div>

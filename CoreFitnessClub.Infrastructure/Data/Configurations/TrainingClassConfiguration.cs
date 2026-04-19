@@ -29,5 +29,14 @@ public class TrainingClassConfiguration : IEntityTypeConfiguration<TrainingClass
 
         builder.Property(x => x.EndsAt)
             .IsRequired();
+
+        builder.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

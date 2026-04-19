@@ -41,6 +41,24 @@ public class AuthController : Controller
         model.ExternalProviders = [.. schemes.Select(x => x.Name)];
     }
 
+    private async Task PopulateExternalProvidersAsync(SignInViewModel model)
+    {
+        var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+        model.ExternalProviders = [.. schemes.Select(x => x.Name)];
+    }
+    private async Task EnsureMemberRoleAsync(AppUser user)
+    {
+        if (await _userManager.IsInRoleAsync(user, "Admin"))
+        {
+            return;
+        }
+
+        if (!await _userManager.IsInRoleAsync(user, "Member"))
+        {
+            await _userManager.AddToRoleAsync(user, "Member");
+        }
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpViewModel model)
@@ -66,6 +84,7 @@ public class AuthController : Controller
         }
 
         TempData["PendingSignUpEmail"] = model.Email;
+        TempData["PendingSignUpReturnUrl"] = model.ReturnUrl;
 
         return RedirectToAction(nameof(VerifySignUpEmail));
     }
@@ -78,11 +97,15 @@ public class AuthController : Controller
             return RedirectToAction(nameof(SignUp));
         }
 
+        var returnUrl = TempData["PendingSignUpReturnUrl"] as string;
+
         TempData["PendingSignUpEmail"] = email;
+        TempData["PendingSignUpReturnUrl"] = returnUrl;
 
         return View(new VerifySignUpEmailViewModel
         {
-            Email = email
+            Email = email,
+            ReturnUrl = returnUrl
         });
     }
 
@@ -102,6 +125,7 @@ public class AuthController : Controller
         }
 
         TempData["VerifiedSignUpEmail"] = model.Email;
+        TempData["VerifiedSignUpReturnUrl"] = model.ReturnUrl;
 
         return RedirectToAction(nameof(SetPassword));
     }
@@ -114,11 +138,15 @@ public class AuthController : Controller
             return RedirectToAction(nameof(SignUp));
         }
 
+        var returnUrl = TempData["VerifiedSignUpReturnUrl"] as string;
+
         TempData["VerifiedSignUpEmail"] = email;
+        TempData["VerifiedSignUpReturnUrl"] = returnUrl;
 
         return View(new SetPasswordViewModel
         {
-            Email = email
+            Email = email,
+            ReturnUrl = returnUrl
         });
     }
 
@@ -136,6 +164,7 @@ public class AuthController : Controller
         if (!ModelState.IsValid)
         {
             TempData["VerifiedSignUpEmail"] = model.Email;
+            TempData["VerifiedSignUpReturnUrl"] = model.ReturnUrl;
             return View(model);
         }
 
@@ -163,6 +192,7 @@ public class AuthController : Controller
             {
                 ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
                 TempData["VerifiedSignUpEmail"] = model.Email;
+                TempData["VerifiedSignUpReturnUrl"] = model.ReturnUrl;
                 return View(model);
             }
 
@@ -180,6 +210,7 @@ public class AuthController : Controller
                     }
 
                     TempData["VerifiedSignUpEmail"] = model.Email;
+                    TempData["VerifiedSignUpReturnUrl"] = model.ReturnUrl;
                     return View(model);
                 }
             }
@@ -196,12 +227,14 @@ public class AuthController : Controller
             }
 
             TempData["VerifiedSignUpEmail"] = model.Email;
+            TempData["VerifiedSignUpReturnUrl"] = model.ReturnUrl;
             return View(model);
         }
 
+        await EnsureMemberRoleAsync(user);
         await _signInManager.SignInAsync(user, isPersistent: false);
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToLocal(model.ReturnUrl);
     }
 
     [HttpGet]
@@ -256,9 +289,18 @@ public class AuthController : Controller
             info.ProviderKey,
             isPersistent: false,
             bypassTwoFactor: true);
-
+        
         if (result.Succeeded)
+        {
+            var existingLinkedUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+            if (existingLinkedUser is not null)
+            {
+                await EnsureMemberRoleAsync(existingLinkedUser);
+            }
+
             return RedirectToLocal(returnUrl);
+        }
 
         if (result.IsLockedOut)
         {
@@ -272,13 +314,13 @@ public class AuthController : Controller
             return RedirectToAction(nameof(SignIn), new { returnUrl });
         }
 
-        return await ExternalVerification(email, returnUrl);
+        return ExternalVerification(email, returnUrl);
     }
 
 
 
 
-    private async Task<IActionResult> ExternalVerification(string email, string? returnUrl = null)
+    private IActionResult ExternalVerification(string email, string? returnUrl = null)
     {
         return View("VerifyExternalLogin", new VerifyExternalLoginViewModel
         {
@@ -338,6 +380,7 @@ public class AuthController : Controller
         {
             if (alreadyLinkedUser.Id == user.Id)
             {
+                await EnsureMemberRoleAsync(alreadyLinkedUser);
                 await _signInManager.SignInAsync(alreadyLinkedUser, isPersistent: false);
                 return RedirectToLocal(returnUrl);
             }
@@ -378,6 +421,7 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
+        await EnsureMemberRoleAsync(user);
         await _signInManager.SignInAsync(user, isPersistent: false);
         return RedirectToLocal(returnUrl);
     }
@@ -421,6 +465,7 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
+        await EnsureMemberRoleAsync(user);
         await _signInManager.SignInAsync(user, isPersistent: false);
         return RedirectToLocal(returnUrl);
     }
@@ -462,9 +507,11 @@ public class AuthController : Controller
     public async Task<IActionResult> SignIn(SignInViewModel model, string? returnUrl = null)
     {
         ViewData["ReturnUrl"] = returnUrl;
+        model.ReturnUrl = returnUrl;
 
         if (!ModelState.IsValid)
         {
+            await PopulateExternalProvidersAsync(model);
             return View(model);
         }
 
@@ -473,6 +520,7 @@ public class AuthController : Controller
         if (user is null)
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            await PopulateExternalProvidersAsync(model);
             return View(model);
         }
 
@@ -485,15 +533,13 @@ public class AuthController : Controller
         if (!result.Succeeded)
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            await PopulateExternalProvidersAsync(model);
             return View(model);
         }
 
-        if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
-        {
-            return Redirect(returnUrl);
-        }
+        await EnsureMemberRoleAsync(user);
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToLocal(returnUrl);
     }
 
     [HttpPost]

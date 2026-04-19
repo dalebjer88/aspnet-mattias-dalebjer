@@ -13,9 +13,6 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.UserId)
-            .IsRequired();
-
         builder.Property(x => x.TrainingClassId)
             .IsRequired();
 
@@ -34,5 +31,15 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(x => x.UserId)
+            .IsRequired()
+            .HasMaxLength(450);
+
+        builder.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedAtUtc)
+            .IsRequired();
     }
 }

@@ -20,9 +20,6 @@ public class MembershipConfiguration : IEntityTypeConfiguration<Membership>
         builder.Property(x => x.MembershipPlanId)
             .IsRequired();
 
-        builder.Property(x => x.Status)
-            .IsRequired();
-
         builder.Property(x => x.StartDate)
             .IsRequired();
 
@@ -38,5 +35,19 @@ public class MembershipConfiguration : IEntityTypeConfiguration<Membership>
             .WithMany()
             .HasForeignKey(x => x.MembershipPlanId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(x => x.Status)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
+        builder.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

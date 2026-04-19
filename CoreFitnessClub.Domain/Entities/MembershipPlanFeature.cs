@@ -1,8 +1,7 @@
 ﻿namespace CoreFitnessClub.Domain.Entities;
 
-public class MembershipPlanFeature
+public class MembershipPlanFeature : BaseEntity
 {
-    public int Id { get; set; }
     public int MembershipPlanId { get; set; }
     public string Text { get; set; } = string.Empty;
 }

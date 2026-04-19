@@ -29,5 +29,14 @@ public class MembershipPlanConfiguration : IEntityTypeConfiguration<MembershipPl
             .WithOne()
             .HasForeignKey(x => x.MembershipPlanId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

@@ -1,5 +1,7 @@
 @{
-    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var isAdmin = User.IsInRole("Admin");
+    var isMember = User.IsInRole("Member");
+    var canAccessAccountArea = isAdmin || isMember;
     var headerVariant = ViewData["HeaderVariant"] as string ?? "Default";
     var activePage = ViewData["ActivePage"] as string ?? "";
     var headerRadiusClass = headerVariant == "Home"
@@ -131,7 +133,7 @@
 
         <div class="justify-self-end">
             <div class="hidden items-center gap-4 xl:flex">
-                @if (isAuthenticated)
+                @if (canAccessAccountArea)
                 {
                     <a asp-area=""
                            asp-controller="Classes"
@@ -275,7 +277,7 @@
                 </a>
             }
 
-            @if (isAuthenticated)
+            @if (canAccessAccountArea)
             {
                 <a asp-area="" asp-controller="Classes" asp-action="Index" class="inline-flex items-center gap-3 font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>

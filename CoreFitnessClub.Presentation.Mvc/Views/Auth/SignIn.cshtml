@@ -9,10 +9,10 @@
 <section>
     <div class="mx-auto w-full max-w-215 rounded-2xl bg-white px-16 py-10">
 
-        @if(TempData["ErrorMessage"] != null)
+        @if (TempData["ExternalLoginError"] is string externalLoginError)
         {
             <div class="mb-4 rounded-md bg-red-100 p-4">
-                <p class="text-sm text-red-700">@TempData["ErrorMessage"]</p>
+                <p class="text-sm text-red-700">@externalLoginError</p>
             </div>
         }
        

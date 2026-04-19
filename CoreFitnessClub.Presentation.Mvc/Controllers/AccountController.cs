@@ -10,7 +10,7 @@ using CoreFitnessClub.Application.Features.Bookings;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Member,Admin")]
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;

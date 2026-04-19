@@ -10,12 +10,18 @@ public static class IdentitySeeder
         UserManager<AppUser> userManager)
     {
         const string adminRole = "Admin";
+        const string memberRole = "Member";
         const string adminEmail = "admin@corefitnessclub.com";
         const string adminPassword = "Admin123";
 
         if (!await roleManager.RoleExistsAsync(adminRole))
         {
             await roleManager.CreateAsync(new IdentityRole(adminRole));
+        }
+
+        if (!await roleManager.RoleExistsAsync(memberRole))
+        {
+            await roleManager.CreateAsync(new IdentityRole(memberRole));
         }
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);

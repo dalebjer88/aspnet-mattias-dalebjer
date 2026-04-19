@@ -18,5 +18,11 @@ public class MembershipPlanFeatureConfiguration : IEntityTypeConfiguration<Membe
         builder.Property(x => x.Text)
             .IsRequired()
             .HasMaxLength(200);
+
+        builder.Property(x => x.CreatedAtUtc)
+            .IsRequired();
+
+        builder.Property(x => x.UpdatedAtUtc)
+            .IsRequired();
     }
 }
