@@ -1,3 +1,7 @@
+CoreFitnessClubDb/*.mdf
+CoreFitnessClubDb/*.ldf
+CoreFitnessClub.Presentation.Mvc/appsettings.Production.json
+
 .vs/
 .vscode/
 

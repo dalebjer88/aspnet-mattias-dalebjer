@@ -24,8 +24,7 @@ public static class DependencyInjection
         }
         else
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<CoreFitnessClubDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -52,6 +51,18 @@ public static class DependencyInjection
 
                 options.ClientSecret = configuration["Authentication:Google:ClientSecret"]
                     ?? throw new InvalidOperationException("Google ClientSecret is not configured.");
+            });
+
+        services.AddAuthentication()
+            .AddGitHub(options =>
+            {
+                options.ClientId = configuration["Authentication:GitHub:ClientId"]
+                    ?? throw new InvalidOperationException("GitHub ClientId is not configured.");
+
+                options.ClientSecret = configuration["Authentication:GitHub:ClientSecret"]
+                    ?? throw new InvalidOperationException("GitHub ClientSecret is not configured.");
+
+                options.Scope.Add("user:email");
             });
 
         services.ConfigureApplicationCookie(options =>
