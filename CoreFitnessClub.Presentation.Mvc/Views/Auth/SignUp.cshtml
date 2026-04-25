@@ -17,18 +17,17 @@
         <div class="flex justify-center gap-10">
             @if (Model.ExternalProviders.Any())
             {
-                <form asp-controller="Auth" asp-action="ExternalLogin" method="post">
+                <form asp-controller="Auth" asp-action="ExternalLogin" method="post" class="flex justify-center gap-10">
                     <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
                     @foreach (var provider in Model.ExternalProviders)
                     {
                         <partial name="ExternalProviders/_@(provider)Button" />
                     }
+
                 </form>
             }
-
-            <partial name="ExternalProviders/_FacebookButton" />
-            <partial name="ExternalProviders/_GitHubButton" />
+            <partial name="Partials/Button/_FacebookButton" />
         </div>
 
         <div class="my-8 mt-16 flex items-center gap-4">
