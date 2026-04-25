@@ -1,6 +1,7 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
 using CoreFitnessClub.Application.Common.Results;
 using CoreFitnessClub.Domain.Entities;
+using CoreFitnessClub.Domain.Exceptions;
 
 namespace CoreFitnessClub.Application.Features.Classes;
 
@@ -30,27 +31,27 @@ public class ManageTrainingClassService : IManageTrainingClassService
             return Result.Failure("Instructor name is required.");
         }
 
-        var startsAt = request.Date.ToDateTime(request.StartTime);
-        var endsAt = request.Date.ToDateTime(request.EndTime);
-
-        if (endsAt <= startsAt)
+        try
         {
-            return Result.Failure("End time must be later than start time.");
+            var startsAt = request.Date.ToDateTime(request.StartTime);
+            var endsAt = request.Date.ToDateTime(request.EndTime);
+
+            var trainingClass = TrainingClass.Create(
+                request.Name.Trim(),
+                request.Category.Trim(),
+                request.InstructorName.Trim(),
+                startsAt,
+                endsAt);
+
+            await _trainingClassRepository.AddAsync(trainingClass, cancellationToken);
+            await _trainingClassRepository.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
         }
-
-        var trainingClass = new TrainingClass
+        catch (Exception ex) when (ex is InvalidTrainingClassTimeException)
         {
-            Name = request.Name.Trim(),
-            Category = request.Category.Trim(),
-            InstructorName = request.InstructorName.Trim(),
-            StartsAt = startsAt,
-            EndsAt = endsAt
-        };
-
-        await _trainingClassRepository.AddAsync(trainingClass, cancellationToken);
-        await _trainingClassRepository.SaveChangesAsync(cancellationToken);
-
-        return Result.Success();
+            return Result.Failure(ex.Message);
+        }
     }
 
     public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default)
