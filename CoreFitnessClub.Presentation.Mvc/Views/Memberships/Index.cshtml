@@ -6,8 +6,6 @@
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "Memberships";
 
-    var membershipError = TempData["MembershipError"] as string;
-
     var cardModels = Model.Select(plan => new MembershipCardViewModel
     {
         Id = plan.Id,
@@ -26,11 +24,3 @@
     </div>
 </section>
 
-@if (!string.IsNullOrWhiteSpace(membershipError))
-{
-    <section class="px-4 pb-4">
-        <div class="mx-auto max-w-330">
-            <p class="text-center" style="color: red;">@membershipError</p>
-        </div>
-    </section>
-}

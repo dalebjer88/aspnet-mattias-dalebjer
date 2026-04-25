@@ -1,8 +1,19 @@
 @model List<CoreFitnessClub.Presentation.Mvc.ViewModels.Memberships.MembershipCardViewModel>
 
-<section id="our-membership" class="pt-12 pb-12">
+@{
+    var membershipError = TempData["MembershipError"] as string;
+}
+
+<section id="our-membership" class="relative pt-12 pb-12">
     <div class="mx-auto flex max-w-330 flex-col gap-16">
         <h2 class="pb-6 text-center">Our Membership Offer</h2>
+
+        @if (!string.IsNullOrWhiteSpace(membershipError))
+        {
+            <p class="absolute left-1/2 top-32 z-10 -translate-x-1/2 text-center whitespace-nowrap" style="color: red;">
+                @membershipError
+            </p>
+        }
 
         <div class="grid grid-cols-12 gap-8">
             @foreach (var card in Model)
