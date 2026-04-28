@@ -16,6 +16,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Memberships\Partials\Membership\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\uploads\profile-images\" />
   </ItemGroup>
 
   <ItemGroup>

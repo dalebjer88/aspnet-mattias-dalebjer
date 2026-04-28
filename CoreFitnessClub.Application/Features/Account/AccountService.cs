@@ -61,6 +61,11 @@ public class AccountService : IAccountService
         userProfile.LastName = Normalize(request.LastName);
         userProfile.PhoneNumber = Normalize(request.PhoneNumber);
 
+        if (!string.IsNullOrWhiteSpace(request.ProfileImagePath))
+        {
+            userProfile.ProfileImagePath = request.ProfileImagePath;
+        }
+
         await _userProfileRepository.SaveChangesAsync(cancellationToken);
     }
 

@@ -2,6 +2,7 @@
     Layout = "_Layout";
     var accountTab = ViewData[index: "AccountTab"] as string ?? "";
     var accountTitle = ViewData[index: "AccountTitle"] as string ?? "";
+    var profileImagePath = ViewData["ProfileImagePath"] as string;
 }
 
 <section class="mx-auto max-w-338 px-4 py-8">
@@ -12,7 +13,11 @@
             <div class="shrink-0">
                 <div class="flex flex-col gap-8">
                     <div class="flex justify-center lg:block">
-                        <img src="~/images/avatar_pic.svg" alt="Profile avatar" />
+                    <img id="accountProfileImage"
+                        src="@(string.IsNullOrWhiteSpace(profileImagePath) ? Url.Content("~/images/avatar_pic.svg") : Url.Content(profileImagePath))"
+                        alt="Profile avatar"
+                        style="object-fit: cover;"
+                        class="w-101 h-110 rounded-2xl object-cover object-center" />
                     </div>
 
                     <div class="overflow-hidden rounded-2xl bg-white">

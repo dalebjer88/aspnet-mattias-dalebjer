@@ -6,7 +6,7 @@
     ViewData["AccountTitle"] = "About Me";
 }
 
-<form asp-action="AboutMe" method="post" class="mt-6">
+<form asp-action="AboutMe" method="post" enctype="multipart/form-data" class="mt-6" data-form-validation>
     <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
 
     <div class="grid gap-4 border-t border-gray-light pt-8">
@@ -36,11 +36,18 @@
     <div class="grid gap-4 border-t border-gray-light pt-8">
         <label for="profileImage" class="font-poppins text-sm font-semibold">Profile Image</label>
 
-        <label for="profileImage" class="w-full cursor-pointer rounded-xl bg-background px-6 py-4 font-dm-sans text-base text-[#A7A7A7]">
+        <label id="profileImageFileName"
+            for="profileImage"
+            class="w-full cursor-pointer rounded-xl bg-background px-6 py-4 font-dm-sans text-base text-[#A7A7A7]">
             Upload Profile Image
         </label>
-
-        <input id="profileImage" name="profileImage" type="file" accept="image/*" class="hidden" />
+    
+        <input asp-for="ProfileImage"
+               id="profileImage"
+               type="file"
+               accept="image/*"
+               class="hidden"
+               data-image-preview-target="accountProfileImage" />
     </div>
 
     <div class="flex justify-end pt-8">
