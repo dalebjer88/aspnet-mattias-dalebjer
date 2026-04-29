@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Member")]
 public class BookingsController : Controller
 {
     private readonly IBookingService _bookingService;
@@ -19,12 +19,6 @@ public class BookingsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Book(int trainingClassId, string? returnUrl)
     {
-        if (User.IsInRole("Admin"))
-        {
-            TempData["ErrorMessage"] = "Admin accounts cannot book classes.";
-            return RedirectToLocalOrDefault(returnUrl);
-        }
-
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (string.IsNullOrWhiteSpace(userId))
