@@ -115,24 +115,12 @@
 
     const forms = document.querySelectorAll("[data-form-validation]");
 
-    forms.forEach((form) => {
-        const inputs = form.querySelectorAll("input[data-val='true']");
-
-        inputs.forEach((input) => {
-            input.addEventListener("input", () => {
-                validateInput(input);
-            });
-
-            input.addEventListener("blur", () => {
-                validateInput(input);
-            });
-        });
-    });
-
     const validateInput = (input) => {
-        const value = input.value.trim();
+        const isCheckbox = input.type === "checkbox";
+        const value = isCheckbox ? (input.checked ? "true" : "false") : input.value.trim();
         const fieldName = input.getAttribute("name");
-        const validationMessage = document.querySelector(
+        const form = input.closest("form");
+        const validationMessage = form?.querySelector(
             `[data-valmsg-for='${fieldName}']`,
         );
 
@@ -142,8 +130,18 @@
 
         let message = "";
 
-        if (!message && input.dataset.valRequired && value.length === 0) {
-            message = input.dataset.valRequired;
+        if (!message && input.dataset.valRequired) {
+            if (isCheckbox && !input.checked) {
+                message = input.dataset.valRequired;
+            }
+
+            if (!isCheckbox && value.length === 0) {
+                message = input.dataset.valRequired;
+            }
+        }
+
+        if (!message && input.dataset.valRange && isCheckbox && !input.checked) {
+            message = input.dataset.valRange;
         }
 
         if (!message && input.dataset.valEmail && value.length > 0) {
@@ -170,8 +168,21 @@
             }
         }
 
-        if (!message && input.dataset.valLengthMax && value.length > Number(input.dataset.valLengthMax)) {
+        if (
+            !message &&
+            input.dataset.valLengthMax &&
+            value.length > Number(input.dataset.valLengthMax)
+        ) {
             message = input.dataset.valLength;
+        }
+
+        if (!message && input.dataset.valEqualto && value.length > 0) {
+            const otherFieldName = input.dataset.valEqualtoOther?.replace("*.", "");
+            const otherInput = form?.querySelector(`[name='${otherFieldName}']`);
+
+            if (otherInput && value !== otherInput.value) {
+                message = input.dataset.valEqualto;
+            }
         }
 
         validationMessage.textContent = message;
@@ -179,6 +190,28 @@
 
         return message.length === 0;
     };
+
+    forms.forEach((form) => {
+        const inputs = form.querySelectorAll("input[data-val='true']");
+
+        inputs.forEach((input) => {
+            input.addEventListener("input", () => {
+                validateInput(input);
+
+                const relatedInputs = form.querySelectorAll(
+                    `input[data-val-equalto-other='*.${input.name}']`,
+                );
+
+                relatedInputs.forEach((relatedInput) => {
+                    validateInput(relatedInput);
+                });
+            });
+
+            input.addEventListener("blur", () => {
+                validateInput(input);
+            });
+        });
+    });
 
     const profileImageInput = document.querySelector("#profileImage");
 

@@ -13,7 +13,7 @@
 
         <hr class="border-t border-gray-light" />
 
-        <form asp-controller="Auth" asp-action="VerifySignUpEmail" method="post" class="flex flex-col gap-4">
+        <form asp-controller="Auth" asp-action="VerifySignUpEmail" method="post" class="flex flex-col gap-4" data-form-validation>
             <input asp-for="Email" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
 
@@ -22,12 +22,6 @@
                 <input asp-for="Code" class="border border-gray-light rounded-[10px] p-2" />
                 <span asp-validation-for="Code" class="text-red-500 text-sm"></span>
             </div>
-
-            <p class="text-sm text-gray-500">
-                By verifying, you agree to our
-                <a href="/terms" class="underline">terms of service</a> and
-                <a href="/privacy" class="underline">privacy policy</a>.
-            </p>
 
             <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
                 Verify

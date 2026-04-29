@@ -38,7 +38,7 @@
             <div class="h-px flex-1 bg-gray-light"></div>
         </div>
 
-        <form asp-controller="Auth" asp-action="SignUp" method="post">
+        <form asp-controller="Auth" asp-action="SignUp" method="post" data-form-validation>
             <input asp-for="ReturnUrl" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
 
@@ -46,6 +46,24 @@
                 <label asp-for="Email" class="block pb-4 pt-8 font-poppins text-sm font-semibold text-primary">Email Address *</label>
                 <input asp-for="Email" placeholder="Enter Email Address" class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none focus:border-accent" />
                 <span asp-validation-for="Email" style="color: red;"></span>
+            </div>
+
+            <div class="flex justify-center pt-8">
+                <label class="inline-flex cursor-pointer items-center gap-3">
+                    <input asp-for="AcceptTerms"
+                        class="peer sr-only" />
+
+                    <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F3F3F3] text-primary peer-checked:bg-accent peer-checked:after:content-['✓'] peer-checked:after:text-base peer-checked:after:font-bold peer-checked:after:leading-none">
+                    </span>
+
+                    <span class="font-dm-sans text-sm font-normal text-[#7E7E7E]">
+                        I accept the user terms and conditions
+                    </span>
+                </label>
+            </div>
+
+            <div class="pt-2 text-center">
+                <span asp-validation-for="AcceptTerms" style="color: red;"></span>
             </div>
 
             <div class="w-full pt-12 pb-6">

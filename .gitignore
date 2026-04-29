@@ -2,6 +2,9 @@ CoreFitnessClubDb/*.mdf
 CoreFitnessClubDb/*.ldf
 CoreFitnessClub.Presentation.Mvc/appsettings.Production.json
 
+# Uploaded user files
+CoreFitnessClub.Presentation.Mvc/wwwroot/uploads/
+
 .vs/
 .vscode/
 

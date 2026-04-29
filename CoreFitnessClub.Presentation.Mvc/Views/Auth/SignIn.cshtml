@@ -47,7 +47,7 @@
             <div class="h-px flex-1 bg-gray-light"></div>
         </div>
 
-        <form asp-controller="Auth" asp-action="SignIn" method="post">
+        <form asp-controller="Auth" asp-action="SignIn" method="post" data-form-validation>
             <input type="hidden" name="returnUrl" value="@returnUrl" />
 
             <div asp-validation-summary="ModelOnly" class="pb-4" style="color: red;"></div>
@@ -74,8 +74,13 @@
             </div>
 
             <div class="flex justify-center pt-8">
-                <label class="inline-flex items-center gap-3">
-                    <input asp-for="RememberMe" class="h-6 w-6 appearance-none rounded-md bg-[#F3F3F3]" />
+                <label class="inline-flex cursor-pointer items-center gap-3">
+                    <input asp-for="RememberMe"
+                        class="peer sr-only" />
+
+                    <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F3F3F3] text-primary peer-checked:bg-accent peer-checked:after:content-['✓'] peer-checked:after:text-base peer-checked:after:font-bold peer-checked:after:leading-none">
+                    </span>
+
                     <span class="font-dm-sans text-sm font-normal text-[#7E7E7E]">
                         Remember me
                     </span>
