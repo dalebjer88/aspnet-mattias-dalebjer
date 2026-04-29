@@ -46,8 +46,13 @@ public class BookingService : IBookingService
             return Result.Failure("Class not found.");
         }
 
-        var existingBooking = await _bookingRepository.GetByUserIdAndTrainingClassIdAsync(userId, trainingClassId, cancellationToken);
+        if (trainingClass.StartsAt <= DateTime.Now)
+        {
+            return Result.Failure("You cannot book a class that has already started.");
+        }
 
+        var existingBooking = await _bookingRepository.GetByUserIdAndTrainingClassIdAsync(userId, trainingClassId, cancellationToken);
+        
         if (existingBooking is not null)
         {
             return Result.Failure("You have already booked this class.");

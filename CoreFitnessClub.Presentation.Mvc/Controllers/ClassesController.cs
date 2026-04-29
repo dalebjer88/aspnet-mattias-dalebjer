@@ -28,7 +28,7 @@ public class ClassesController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var classes = await _readTrainingClassService.GetAllAsync();
+        var classes = await _readTrainingClassService.GetAvailableAsync();
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var bookedTrainingClassIds = new HashSet<int>();

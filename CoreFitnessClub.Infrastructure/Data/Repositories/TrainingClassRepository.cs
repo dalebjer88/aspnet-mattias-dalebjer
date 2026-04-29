@@ -20,6 +20,14 @@ public class TrainingClassRepository : ITrainingClassRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<TrainingClass>> GetAvailableAsync(DateTime currentDateTime, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.TrainingClasses
+            .Where(x => x.StartsAt > currentDateTime)
+            .OrderBy(x => x.StartsAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<TrainingClass?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         return await _dbContext.TrainingClasses

@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
+using CoreFitnessClub.Domain.Entities;
 
 namespace CoreFitnessClub.Application.Features.Classes;
 
@@ -15,14 +16,26 @@ public class ReadTrainingClassService : IReadTrainingClassService
     {
         var trainingClasses = await _trainingClassRepository.GetAllAsync(cancellationToken);
 
-        return trainingClasses.Select(x => new TrainingClassDto
+        return trainingClasses.Select(MapToDto).ToList();
+    }
+
+    public async Task<List<TrainingClassDto>> GetAvailableAsync(CancellationToken cancellationToken = default)
+    {
+        var trainingClasses = await _trainingClassRepository.GetAvailableAsync(DateTime.Now, cancellationToken);
+
+        return trainingClasses.Select(MapToDto).ToList();
+    }
+
+    private static TrainingClassDto MapToDto(TrainingClass trainingClass)
+    {
+        return new TrainingClassDto
         {
-            Id = x.Id,
-            Name = x.Name,
-            Category = x.Category,
-            InstructorName = x.InstructorName,
-            StartsAt = x.StartsAt,
-            EndsAt = x.EndsAt
-        }).ToList();
+            Id = trainingClass.Id,
+            Name = trainingClass.Name,
+            Category = trainingClass.Category,
+            InstructorName = trainingClass.InstructorName,
+            StartsAt = trainingClass.StartsAt,
+            EndsAt = trainingClass.EndsAt
+        };
     }
 }
