@@ -1,5 +1,7 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
 using CoreFitnessClub.Application.Features.Bookings;
+using CoreFitnessClub.Application.Common.Exceptions;
+using Microsoft.Data.SqlClient;
 using CoreFitnessClub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,9 +55,16 @@ public class BookingRepository : IBookingRepository
         _dbContext.Bookings.Remove(booking);
     }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return _dbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException exception) when (IsUniqueConstraintViolation(exception))
+        {
+            throw new DuplicateEntityException("You have already booked this class.", exception);
+        }
     }
 
     public async Task RemoveByUserIdAsync(string userId, CancellationToken cancellationToken = default)
@@ -70,5 +79,11 @@ public class BookingRepository : IBookingRepository
         }
 
         _dbContext.Bookings.RemoveRange(bookings);
+    }
+
+    private static bool IsUniqueConstraintViolation(DbUpdateException exception)
+    {
+        return exception.InnerException is SqlException sqlException &&
+               sqlException.Number is 2601 or 2627;
     }
 }

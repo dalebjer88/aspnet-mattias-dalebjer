@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
+using CoreFitnessClub.Application.Common.Exceptions;
 using CoreFitnessClub.Application.Common.Results;
 using CoreFitnessClub.Domain.Entities;
 
@@ -65,8 +66,15 @@ public class BookingService : IBookingService
             BookedAt = DateTime.UtcNow
         };
 
-        await _bookingRepository.AddAsync(booking, cancellationToken);
-        await _bookingRepository.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await _bookingRepository.AddAsync(booking, cancellationToken);
+            await _bookingRepository.SaveChangesAsync(cancellationToken);
+        }
+        catch (DuplicateEntityException exception)
+        {
+            return Result.Failure(exception.Message);
+        }
 
         return Result.Success();
     }

@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Common.Results;
+using CoreFitnessClub.Application.Common.Exceptions;
 using CoreFitnessClub.Application.Abstractions;
 using CoreFitnessClub.Domain.Entities;
 
@@ -48,8 +49,15 @@ public class MembershipService : IMembershipService
             StartDate = DateTime.UtcNow
         };
 
-        await _membershipRepository.AddAsync(membership, cancellationToken);
-        await _membershipRepository.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await _membershipRepository.AddAsync(membership, cancellationToken);
+            await _membershipRepository.SaveChangesAsync(cancellationToken);
+        }
+        catch (DuplicateEntityException exception)
+        {
+            return Result.Failure(exception.Message);
+        }
 
         return Result.Success();
     }

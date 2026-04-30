@@ -67,7 +67,7 @@
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="trainingClassId" value="@booking.TrainingClassId" />
                                 <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
-                                <button type="submit" class="inline-flex items-center rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
+                                <button type="submit" class="inline-flex cursor-pointer items-center rounded-full bg-primary px-6 py-4 font-dm-sans text-sm font-semibold text-white">
                                     Cancel booking
                                 </button>
                             </form>
