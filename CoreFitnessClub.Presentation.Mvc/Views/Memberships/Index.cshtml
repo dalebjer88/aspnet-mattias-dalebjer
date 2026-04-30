@@ -6,6 +6,8 @@
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "Memberships";
 
+    var returnUrl = ViewData["ReturnUrl"] as string;
+
     var cardModels = Model.Select(plan => new MembershipCardViewModel
     {
         Id = plan.Id,
@@ -13,7 +15,8 @@
         PricePerMonth = plan.PricePerMonth,
         ClassesPerMonth = plan.ClassesPerMonth,
         TrialWeeks = plan.TrialWeeks,
-        Features = plan.Features
+        Features = plan.Features,
+        ReturnUrl = returnUrl
     }).ToList();
 }
 

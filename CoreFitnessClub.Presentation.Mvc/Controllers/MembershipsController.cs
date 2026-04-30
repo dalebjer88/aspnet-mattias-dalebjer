@@ -20,9 +20,11 @@ public class MembershipsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? returnUrl)
     {
         var plans = await _readMembershipService.GetPlansAsync();
+
+        ViewData["ReturnUrl"] = Url.IsLocalUrl(returnUrl) ? returnUrl : null;
 
         return View(plans);
     }
@@ -39,7 +41,7 @@ public class MembershipsController : Controller
                 .Select(x => x.ErrorMessage)
                 .FirstOrDefault() ?? "Unable to create membership.";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { returnUrl = model.ReturnUrl });
         }
 
         var request = new CreateMembershipRequest
@@ -53,6 +55,11 @@ public class MembershipsController : Controller
         {
             TempData["MembershipError"] = result.ErrorMessage ?? "Unable to create membership.";
             return RedirectToAction(nameof(Index));
+        }
+
+        if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+        {
+            return LocalRedirect(model.ReturnUrl);
         }
 
         return RedirectToAction("MyMembership", "Account");

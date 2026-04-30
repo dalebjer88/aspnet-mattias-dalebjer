@@ -4,6 +4,8 @@
     ViewData["Title"] = "Our Classes";
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "Classes";
+
+    var currentUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
 }
 
 <section class="px-4 py-4">
@@ -95,6 +97,7 @@
                                         {
                                             <a asp-controller="Memberships"
                                                    asp-action="Index"
+                                                   asp-route-returnUrl="@currentUrl"
                                                    class="inline-flex cursor-pointer items-center rounded-full bg-gray-light px-6 py-4 font-dm-sans text-sm font-semibold text-primary">
                                                 Get membership
                                             </a>

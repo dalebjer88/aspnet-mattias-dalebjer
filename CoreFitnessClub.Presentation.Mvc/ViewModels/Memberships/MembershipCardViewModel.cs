@@ -8,4 +8,5 @@ public class MembershipCardViewModel
     public int ClassesPerMonth { get; set; }
     public int TrialWeeks { get; set; }
     public List<string> Features { get; set; } = [];
+    public string? ReturnUrl { get; set; }
 }

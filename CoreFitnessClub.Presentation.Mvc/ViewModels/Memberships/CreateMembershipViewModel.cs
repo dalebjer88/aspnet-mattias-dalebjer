@@ -6,4 +6,5 @@ public class CreateMembershipViewModel
 {
     [Range(1, int.MaxValue, ErrorMessage = "Please select a valid membership plan.")]
     public int MembershipPlanId { get; set; }
+    public string? ReturnUrl { get; set; }
 }

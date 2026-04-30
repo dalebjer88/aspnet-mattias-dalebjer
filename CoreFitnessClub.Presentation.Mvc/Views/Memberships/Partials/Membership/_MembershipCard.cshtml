@@ -2,7 +2,9 @@
 @{
     var isAdmin = User.IsInRole("Admin");
     var isMember = User.IsInRole("Member");
-    var membershipsReturnUrl = Url.Action("Index", "Memberships");
+    var membershipsReturnUrl = string.IsNullOrWhiteSpace(Model.ReturnUrl)
+        ? Url.Action("Index", "Memberships")
+        : Url.Action("Index", "Memberships", new { returnUrl = Model.ReturnUrl });
 }
 <div class="rounded-[20px] bg-white px-0 py-0">
     <div class="flex h-full flex-col gap-6 rounded-[20px] bg-white pt-10 pb-4">
@@ -69,6 +71,7 @@
                     <form asp-controller="Memberships" asp-action="Create" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="MembershipPlanId" value="@Model.Id" />
+                        <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
 
                         <button type="submit"
                                 class="inline-flex cursor-pointer items-center gap-2 rounded-full bg-accent px-7 py-4 font-dm-sans font-semibold text-primary">
