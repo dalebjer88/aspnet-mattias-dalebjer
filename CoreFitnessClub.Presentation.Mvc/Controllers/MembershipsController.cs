@@ -51,7 +51,7 @@ public class MembershipsController : Controller
 
         if (!result.Succeeded)
         {
-            TempData["MembershipError"] = result.Error;
+            TempData["MembershipError"] = result.ErrorMessage ?? "Unable to create membership.";
             return RedirectToAction(nameof(Index));
         }
 
