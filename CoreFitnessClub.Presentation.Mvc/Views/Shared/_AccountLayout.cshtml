@@ -62,15 +62,7 @@
                     <h2 class="font-poppins text-[56px] font-medium">@accountTitle</h2>
                     @RenderBody()
                 </div>
-
-                <div class="pt-12">
-                    <div class="flex flex-col items-center lg:items-end">
-                        <h2 class="pb-4 text-center lg:text-left">My Statistics</h2>
-                        <div class="flex justify-center lg:block">
-                            <img src="~/images/mystats.svg" alt="Profile statistics" />
-                        </div>
-                    </div>
-                </div>
+                <partial name="Partials/Account/_MyStatistics" />
             </div>
         </div>
     </div>
