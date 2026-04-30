@@ -34,6 +34,7 @@ public class CreateTrainingClassViewModel : IValidatableObject
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         var today = DateOnly.FromDateTime(DateTime.Today);
+        var currentTime = TimeOnly.FromDateTime(DateTime.Now);
 
         if (Date.HasValue && Date.Value < today)
         {
@@ -41,6 +42,14 @@ public class CreateTrainingClassViewModel : IValidatableObject
                 "Class date cannot be in the past.",
                 new[] { nameof(Date) });
         }
+
+        if (Date.HasValue && StartTime.HasValue && Date.Value == today && StartTime.Value <= currentTime)
+        {
+            yield return new ValidationResult(
+                "Start time must be later than the current time.",
+                new[] { nameof(StartTime) });
+        }
+
         if (StartTime.HasValue && EndTime.HasValue && EndTime.Value <= StartTime.Value)
         {
             yield return new ValidationResult(

@@ -46,7 +46,7 @@
                             </p>
                         </div>
 
-                        <form asp-area="Admin" asp-controller="Classes" asp-action="Create" method="post" class="flex flex-col gap-5" data-form-validation>
+                        <form asp-area="Admin" asp-controller="Classes" asp-action="Create" method="post" class="flex flex-col gap-5" data-form-validation data-admin-class-validation>
                             @Html.AntiForgeryToken()
 
                             <div class="flex flex-col gap-1">
@@ -95,6 +95,7 @@
                                     <input asp-for="Form.Date"
                                            type="date"
                                            min="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")"
+                                           data-class-date
                                            class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
                                     <p class="font-dm-sans text-sm text-gray">Choose the day the class takes place.</p>
                                     <span asp-validation-for="Form.Date" class="text-sm" style="color: red;"></span>
@@ -106,6 +107,7 @@
                                     </label>
                                     <input asp-for="Form.StartTime"
                                            type="time"
+                                           data-class-start-time
                                            class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
                                     <p class="font-dm-sans text-sm text-gray">Use 24-hour format.</p>
                                     <span asp-validation-for="Form.StartTime" class="text-sm" style="color: red;"></span>
@@ -117,6 +119,7 @@
                                     </label>
                                     <input asp-for="Form.EndTime"
                                            type="time"
+                                           data-class-end-time
                                            class="w-full rounded-2xl border border-gray-light px-4 py-3 outline-none" />
                                     <p class="font-dm-sans text-sm text-gray">Must be later than the start time.</p>
                                     <span asp-validation-for="Form.EndTime" class="text-sm" style="color: red;"></span>

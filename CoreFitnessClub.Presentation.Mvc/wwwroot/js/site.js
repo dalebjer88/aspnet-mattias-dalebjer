@@ -213,6 +213,107 @@
         });
     });
 
+    const adminClassForms = document.querySelectorAll("[data-admin-class-validation]");
+
+    const getTodayValue = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
+
+    const getCurrentTimeValue = () => {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        return `${hours}:${minutes}`;
+    };
+
+    adminClassForms.forEach((form) => {
+        const dateInput = form.querySelector("[data-class-date]");
+        const startTimeInput = form.querySelector("[data-class-start-time]");
+        const endTimeInput = form.querySelector("[data-class-end-time]");
+
+        if (!dateInput || !startTimeInput || !endTimeInput) {
+            return;
+        }
+
+        const setValidationMessage = (input, message) => {
+            const fieldName = input.getAttribute("name");
+            const validationMessage = form.querySelector(
+                `[data-valmsg-for='${fieldName}']`,
+            );
+
+            if (!validationMessage) {
+                return;
+            }
+
+            validationMessage.textContent = message;
+            validationMessage.style.color = "red";
+        };
+
+        const validateAdminClassTimes = () => {
+            const dateIsValid = validateInput(dateInput);
+            const startTimeIsValid = validateInput(startTimeInput);
+            const endTimeIsValid = validateInput(endTimeInput);
+
+            if (!dateIsValid || !startTimeIsValid || !endTimeIsValid) {
+                return false;
+            }
+
+            let isValid = true;
+
+            const todayValue = getTodayValue();
+            const currentTimeValue = getCurrentTimeValue();
+
+            if (dateInput.value && dateInput.value < todayValue) {
+                setValidationMessage(dateInput, "Class date cannot be in the past.");
+                isValid = false;
+            }
+
+            if (
+                dateInput.value === todayValue &&
+                startTimeInput.value &&
+                startTimeInput.value <= currentTimeValue
+            ) {
+                setValidationMessage(
+                    startTimeInput,
+                    "Start time must be later than the current time.",
+                );
+                isValid = false;
+            }
+
+            if (
+                startTimeInput.value &&
+                endTimeInput.value &&
+                endTimeInput.value <= startTimeInput.value
+            ) {
+                setValidationMessage(
+                    endTimeInput,
+                    "End time must be later than start time.",
+                );
+                isValid = false;
+            }
+
+            return isValid;
+        };
+
+        [dateInput, startTimeInput, endTimeInput].forEach((input) => {
+            input.addEventListener("input", validateAdminClassTimes);
+            input.addEventListener("change", validateAdminClassTimes);
+            input.addEventListener("blur", validateAdminClassTimes);
+        });
+
+        form.addEventListener("submit", (event) => {
+            if (!validateAdminClassTimes()) {
+                event.preventDefault();
+            }
+        });
+    });
+
     const profileImageInput = document.querySelector("#profileImage");
 
     if (profileImageInput) {
