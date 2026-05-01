@@ -1,5 +1,6 @@
 ﻿using CoreFitnessClub.Infrastructure.Identity;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -143,6 +144,8 @@ public class AuthController : Controller
         TempData["VerifiedSignUpEmail"] = email;
         TempData["VerifiedSignUpReturnUrl"] = returnUrl;
 
+        ViewData["FormAction"] = nameof(SetPassword);
+
         return View(new SetPasswordViewModel
         {
             Email = email,
@@ -237,6 +240,78 @@ public class AuthController : Controller
         return RedirectToLocal(model.ReturnUrl);
     }
 
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> SetExternalPassword(string? returnUrl = null)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user is null)
+        {
+            return RedirectToAction(nameof(SignIn), new { returnUrl });
+        }
+
+        var hasPassword = await _userManager.HasPasswordAsync(user);
+
+        if (hasPassword)
+        {
+            return RedirectToLocal(returnUrl);
+        }
+
+        ViewData["FormAction"] = nameof(SetExternalPassword);
+
+        return View(nameof(SetPassword), new SetPasswordViewModel
+        {
+            Email = user.Email ?? string.Empty,
+            ReturnUrl = returnUrl
+        });
+    }
+
+    [Authorize]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SetExternalPassword(SetPasswordViewModel model)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user is null)
+        {
+            return RedirectToAction(nameof(SignIn), new { returnUrl = model.ReturnUrl });
+        }
+
+        var hasPassword = await _userManager.HasPasswordAsync(user);
+
+        if (hasPassword)
+        {
+            return RedirectToLocal(model.ReturnUrl);
+        }
+
+        model.Email = user.Email ?? string.Empty;
+
+        if (!ModelState.IsValid)
+        {
+            ViewData["FormAction"] = nameof(SetExternalPassword);
+            return View(nameof(SetPassword), model);
+        }
+
+        var result = await _userManager.AddPasswordAsync(user, model.Password);
+
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            ViewData["FormAction"] = nameof(SetExternalPassword);
+            return View(nameof(SetPassword), model);
+        }
+
+        await _signInManager.RefreshSignInAsync(user);
+
+        return RedirectToLocal(model.ReturnUrl);
+    }
+
     [HttpGet]
     public async Task<IActionResult> SignIn(string? returnUrl = null)
     {
@@ -289,17 +364,22 @@ public class AuthController : Controller
             info.ProviderKey,
             isPersistent: false,
             bypassTwoFactor: true);
-        
+
         if (result.Succeeded)
         {
             var existingLinkedUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-            if (existingLinkedUser is not null)
+            if (existingLinkedUser is null)
             {
-                await EnsureMemberRoleAsync(existingLinkedUser);
+                _logger.LogWarning(
+                    "External login succeeded, but linked user could not be found for {Provider}/{ProviderKey}.",
+                    info.LoginProvider,
+                    info.ProviderKey);
+
+                return RedirectToLocal(returnUrl);
             }
 
-            return RedirectToLocal(returnUrl);
+            return await CompleteExternalSignInAsync(existingLinkedUser, returnUrl);
         }
 
         if (result.IsLockedOut)
@@ -375,14 +455,12 @@ public class AuthController : Controller
     private async Task<IActionResult> LinkExistingUser(AppUser user, ExternalLoginInfo info, string? returnUrl = null)
     {
         var alreadyLinkedUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-
+        
         if (alreadyLinkedUser is not null)
         {
             if (alreadyLinkedUser.Id == user.Id)
             {
-                await EnsureMemberRoleAsync(alreadyLinkedUser);
-                await _signInManager.SignInAsync(alreadyLinkedUser, isPersistent: false);
-                return RedirectToLocal(returnUrl);
+                return await CompleteExternalSignInAsync(alreadyLinkedUser, returnUrl);
             }
 
             _logger.LogWarning(
@@ -421,9 +499,7 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
-        await EnsureMemberRoleAsync(user);
-        await _signInManager.SignInAsync(user, isPersistent: false);
-        return RedirectToLocal(returnUrl);
+        return await CompleteExternalSignInAsync(user, returnUrl);
     }
 
     private async Task<IActionResult> CreateExternalUser(string email, ExternalLoginInfo info, string? returnUrl = null) 
@@ -465,9 +541,7 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
-        await EnsureMemberRoleAsync(user);
-        await _signInManager.SignInAsync(user, isPersistent: false);
-        return RedirectToLocal(returnUrl);
+        return await CompleteExternalSignInAsync(user, returnUrl);
     }
 
     private async Task<(ExternalLoginInfo info, string Email)?> GetExternalUserInfo() 
@@ -554,5 +628,20 @@ public class AuthController : Controller
     public IActionResult AccessDenied()
     {
         return RedirectToAction("SignIn", "Auth");
+    }
+
+    private async Task<IActionResult> CompleteExternalSignInAsync(AppUser user, string? returnUrl = null)
+    {
+        await EnsureMemberRoleAsync(user);
+        await _signInManager.SignInAsync(user, isPersistent: false);
+
+        var hasPassword = await _userManager.HasPasswordAsync(user);
+
+        if (!hasPassword)
+        {
+            return RedirectToAction(nameof(SetExternalPassword), new { returnUrl });
+        }
+
+        return RedirectToLocal(returnUrl);
     }
 }
