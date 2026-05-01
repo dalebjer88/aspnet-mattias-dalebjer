@@ -330,22 +330,21 @@ public class AuthController : Controller
 
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+    public IActionResult ExternalLogin(string provider, string? returnUrl = null, bool rememberMe = false)
     {
         if (string.IsNullOrWhiteSpace(provider))
-            return RedirectToAction(nameof(SignIn), new {returnUrl});
-        
-        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl });
+        {
+            return RedirectToAction(nameof(SignIn), new { returnUrl });
+        }
+
+        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl, rememberMe });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
         return Challenge(properties, provider);
     }
 
-
-
-
     [HttpGet]
-    public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
+    public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, bool rememberMe = false, string? remoteError = null)
     {
         if (remoteError is not null)
         {
@@ -379,7 +378,7 @@ public class AuthController : Controller
                 return RedirectToLocal(returnUrl);
             }
 
-            return await CompleteExternalSignInAsync(existingLinkedUser, returnUrl);
+            return await CompleteExternalSignInAsync(existingLinkedUser, returnUrl, rememberMe);
         }
 
         if (result.IsLockedOut)
@@ -394,18 +393,19 @@ public class AuthController : Controller
             return RedirectToAction(nameof(SignIn), new { returnUrl });
         }
 
-        return ExternalVerification(email, returnUrl);
+        return ExternalVerification(email, returnUrl, rememberMe);
     }
 
 
 
 
-    private IActionResult ExternalVerification(string email, string? returnUrl = null)
+    private IActionResult ExternalVerification(string email, string? returnUrl = null, bool rememberMe = false)
     {
         return View("VerifyExternalLogin", new VerifyExternalLoginViewModel
         {
             ReturnUrl = returnUrl,
-            Email = email
+            Email = email,
+            RememberMe = rememberMe
         });
     }
 
@@ -446,13 +446,15 @@ public class AuthController : Controller
 
         var existingUser = await _userManager.FindByEmailAsync(email);
         if (existingUser is not null)
-            return await LinkExistingUser(existingUser, info, vm.ReturnUrl);
+        {
+            return await LinkExistingUser(existingUser, info, vm.ReturnUrl, vm.RememberMe);
+        }
 
-        return await CreateExternalUser(email, info, vm.ReturnUrl);
+        return await CreateExternalUser(email, info, vm.ReturnUrl, vm.RememberMe);
     }
 
 
-    private async Task<IActionResult> LinkExistingUser(AppUser user, ExternalLoginInfo info, string? returnUrl = null)
+    private async Task<IActionResult> LinkExistingUser(AppUser user, ExternalLoginInfo info, string? returnUrl = null, bool rememberMe = false)
     {
         var alreadyLinkedUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
         
@@ -460,7 +462,7 @@ public class AuthController : Controller
         {
             if (alreadyLinkedUser.Id == user.Id)
             {
-                return await CompleteExternalSignInAsync(alreadyLinkedUser, returnUrl);
+                return await CompleteExternalSignInAsync(alreadyLinkedUser, returnUrl, rememberMe);
             }
 
             _logger.LogWarning(
@@ -499,10 +501,10 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
-        return await CompleteExternalSignInAsync(user, returnUrl);
+        return await CompleteExternalSignInAsync(user, returnUrl, rememberMe);
     }
 
-    private async Task<IActionResult> CreateExternalUser(string email, ExternalLoginInfo info, string? returnUrl = null) 
+    private async Task<IActionResult> CreateExternalUser(string email, ExternalLoginInfo info, string? returnUrl = null, bool rememberMe = false)
     {
         var user = new AppUser
         {
@@ -541,7 +543,7 @@ public class AuthController : Controller
             return ExternalLoginFailed(returnUrl);
         }
 
-        return await CompleteExternalSignInAsync(user, returnUrl);
+        return await CompleteExternalSignInAsync(user, returnUrl, rememberMe);
     }
 
     private async Task<(ExternalLoginInfo info, string Email)?> GetExternalUserInfo() 
@@ -630,10 +632,10 @@ public class AuthController : Controller
         return RedirectToAction("SignIn", "Auth");
     }
 
-    private async Task<IActionResult> CompleteExternalSignInAsync(AppUser user, string? returnUrl = null)
+    private async Task<IActionResult> CompleteExternalSignInAsync(AppUser user, string? returnUrl = null, bool rememberMe = false)
     {
         await EnsureMemberRoleAsync(user);
-        await _signInManager.SignInAsync(user, isPersistent: false);
+        await _signInManager.SignInAsync(user, isPersistent: rememberMe);
 
         var hasPassword = await _userManager.HasPasswordAsync(user);
 

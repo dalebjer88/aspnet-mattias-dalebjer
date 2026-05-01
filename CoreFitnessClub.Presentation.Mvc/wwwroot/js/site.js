@@ -113,6 +113,18 @@
     });
     }
 
+    const rememberMeCheckbox = document.querySelector("[data-remember-me-checkbox]");
+    const externalRememberMeInput = document.querySelector("#externalRememberMe");
+
+    if (rememberMeCheckbox && externalRememberMeInput) {
+        const updateExternalRememberMe = () => {
+            externalRememberMeInput.value = rememberMeCheckbox.checked ? "true" : "false";
+        };
+
+        updateExternalRememberMe();
+        rememberMeCheckbox.addEventListener("change", updateExternalRememberMe);
+    }
+
     const forms = document.querySelectorAll("[data-form-validation]");
 
     const validateInput = (input) => {

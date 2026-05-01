@@ -16,6 +16,7 @@
         <form asp-controller="Auth" asp-action="VerifyExternalLogin" method="post" class="flex flex-col gap-4" data-form-validation>
             <input asp-for="Email" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
+            <input asp-for="RememberMe" type="hidden" />
 
             <div class="flex flex-col gap-2">
                 <label asp-for="Code">Verification code:</label>

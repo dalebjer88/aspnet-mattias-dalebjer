@@ -28,6 +28,7 @@
             {
                 <form asp-controller="Auth" asp-action="ExternalLogin" method="post" class="flex justify-center gap-10">
                     <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                    <input id="externalRememberMe" type="hidden" name="rememberMe" value="false" />
 
                     @foreach (var provider in Model.ExternalProviders)
                     {
@@ -76,7 +77,8 @@
             <div class="flex justify-center pt-8">
                 <label class="inline-flex cursor-pointer items-center gap-3">
                     <input asp-for="RememberMe"
-                        class="peer sr-only" />
+                           data-remember-me-checkbox
+                           class="peer sr-only" />
 
                     <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F3F3F3] text-primary peer-checked:bg-accent peer-checked:after:content-['✓'] peer-checked:after:text-base peer-checked:after:font-bold peer-checked:after:leading-none">
                     </span>
