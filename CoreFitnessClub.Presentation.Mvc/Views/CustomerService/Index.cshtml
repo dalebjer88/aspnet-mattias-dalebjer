@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CoreFitnessClub.Presentation.Mvc.ViewModels.CustomerService.ContactRequestViewModel
+
+@{
     ViewData["Title"] = "Customer Service";
     ViewData["HeaderVariant"] = "Default";
     ViewData["ActivePage"] = "CustomerService";
@@ -6,7 +8,7 @@
 
 <section class="px-4 py-4">
     <div class="mx-auto max-w-472">
-        <partial name="~/Views/CustomerService/_ContactSection.cshtml" />
+        <partial name="~/Views/CustomerService/_ContactSection.cshtml" model="Model" />
         <partial name="~/Views/Shared/Partials/FaqSection/_FaqSection.cshtml" />
     </div>
 </section>

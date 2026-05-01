@@ -204,7 +204,7 @@
     };
 
     forms.forEach((form) => {
-        const inputs = form.querySelectorAll("input[data-val='true']");
+        const inputs = form.querySelectorAll("input[data-val='true'], textarea[data-val='true']");
 
         inputs.forEach((input) => {
             input.addEventListener("input", () => {

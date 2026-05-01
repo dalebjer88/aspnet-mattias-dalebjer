@@ -1,9 +1,59 @@
+@model CoreFitnessClub.Presentation.Mvc.ViewModels.CustomerService.ContactRequestViewModel
+
 <section class="mx-auto max-w-338 px-4 py-8">
     <h2 class="pb-14 text-center">Customer Service</h2>
 
+    <div class="mx-auto mb-8 flex w-full max-w-177.5 flex-col gap-5 rounded-xl bg-[#404040]/75 px-6 py-7 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-center sm:gap-8 min-[1375px]:hidden">
+        <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent">
+                <img src="~/images/phone-icon.svg" alt="" class="h-5 w-5" />
+            </div>
+
+            <div>
+                <p class="font-poppins text-xl font-semibold text-white">Phone Number</p>
+                <p class="font-poppins text-base font-normal text-white">+(46) 8 410 521 00</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent">
+                <img src="~/images/email-icon.svg" alt="" class="h-5 w-5" />
+            </div>
+
+            <div>
+                <p class="font-poppins text-xl font-semibold text-white">Email Address</p>
+                <p class="font-poppins text-base font-normal text-white">info@corefitness.se</p>
+            </div>
+        </div>
+    </div>
+
     <div class="min-[1375px]:flex min-[1375px]:flex-row">
-        <div class="hidden min-[1375px]:block">
+        <div class="relative hidden min-[1375px]:block">
             <img src="~/images/contact-us-image1.svg" alt="Woman training in the gym" />
+
+            <div class="absolute bottom-8 left-8 right-8 flex items-center justify-center gap-10 rounded-[20px] bg-[#404040]/75 px-6 py-9 backdrop-blur-sm">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent">
+                        <img src="~/images/phone-icon.svg" alt="" class="h-5 w-5" />
+                    </div>
+
+                    <div>
+                        <p class="font-poppins text-xl font-semibold text-white">Phone Number</p>
+                        <p class="font-poppins text-base font-normal text-white">+(46) 8 410 521 00</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent">
+                        <img src="~/images/email-icon.svg" alt="" class="h-5 w-5" />
+                    </div>
+
+                    <div>
+                        <p class="font-poppins text-xl font-semibold text-white">Email Address</p>
+                        <p class="font-poppins text-base font-normal text-white">info@corefitness.se</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="mx-auto flex w-full max-w-177.5 flex-col gap-4 rounded-2xl bg-white px-8 py-12 min-[1375px]:mx-0 min-[1375px]:rounded-none min-[1375px]:px-20">
@@ -14,44 +64,65 @@
                 right program and support.
             </p>
 
-            <form class="grid gap-6">
+            <form asp-controller="CustomerService" asp-action="Index" method="post" class="grid gap-6" data-form-validation>
                 <div class="grid gap-8 lg:grid-cols-2">
-                    <div class="grid gap-4">
-                        <label for="firstName" class="font-poppins text-sm font-semibold text-secondary">First Name *</label>
-                        <input id="firstName" name="firstName" type="text" placeholder="Enter First Name"
+                    <div class="relative grid gap-4">
+                        <label asp-for="FirstName" class="font-poppins text-sm font-semibold text-secondary">First Name *</label>
+                        <input asp-for="FirstName"
+                               placeholder="Enter First Name"
                                class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                        <span asp-validation-for="FirstName"
+                              class="absolute -bottom-6 left-0 font-dm-sans text-sm"
+                              style="color: red;"></span>
                     </div>
 
-                    <div class="grid gap-4">
-                        <label for="lastName" class="font-poppins text-sm font-semibold text-secondary">Last Name *</label>
-                        <input id="lastName" name="lastName" type="text" placeholder="Enter Last Name"
+                    <div class="relative grid gap-4">
+                        <label asp-for="LastName" class="font-poppins text-sm font-semibold text-secondary">Last Name *</label>
+                        <input asp-for="LastName"
+                               placeholder="Enter Last Name"
                                class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                        <span asp-validation-for="LastName"
+                              class="absolute -bottom-6 left-0 font-dm-sans text-sm"
+                              style="color: red;"></span>
                     </div>
                 </div>
 
                 <div class="grid gap-8 lg:grid-cols-2">
-                    <div class="grid gap-4">
-                        <label for="email" class="font-poppins text-sm font-semibold text-secondary">Email Address *</label>
-                        <input id="email" name="email" type="email" placeholder="Enter Email Address"
+                    <div class="relative grid gap-4">
+                        <label asp-for="Email" class="font-poppins text-sm font-semibold text-secondary">Email Address *</label>
+                        <input asp-for="Email"
+                               placeholder="Enter Email Address"
                                class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                        <span asp-validation-for="Email"
+                              class="absolute -bottom-6 left-0 font-dm-sans text-sm"
+                              style="color: red;"></span>
                     </div>
 
-                    <div class="grid gap-4">
-                        <label for="phone" class="font-poppins text-sm font-semibold text-secondary">Phone Number</label>
-                        <input id="phone" name="phone" type="text" placeholder="Enter Phone Number"
+                    <div class="relative grid gap-4">
+                        <label asp-for="Phone" class="font-poppins text-sm font-semibold text-secondary">Phone Number</label>
+                        <input asp-for="Phone"
+                               placeholder="Enter Phone Number"
                                class="w-full rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent" />
+                        <span asp-validation-for="Phone"
+                              class="absolute -bottom-6 left-0 font-dm-sans text-sm"
+                              style="color: red;"></span>
                     </div>
                 </div>
 
-                <div class="grid gap-4">
-                    <label for="message" class="font-poppins text-sm font-semibold text-secondary">Message *</label>
-                    <textarea id="message" name="message" placeholder="Message..." rows="5"
+                <div class="relative grid gap-4">
+                    <label asp-for="Message" class="font-poppins text-sm font-semibold text-secondary">Message *</label>
+                    <textarea asp-for="Message"
+                              placeholder="Message..."
+                              rows="5"
                               class="w-full resize-none overflow-y-auto rounded-xl border border-transparent bg-background px-6 py-4 font-dm-sans text-base text-secondary outline-none placeholder:font-dm-sans placeholder:text-[#A7A7A7] focus:border-accent"></textarea>
+                    <span asp-validation-for="Message"
+                          class="absolute -bottom-6 left-0 font-dm-sans text-sm"
+                          style="color: red;"></span>
                 </div>
 
-                <div class="pt-8">
+                <div class="relative pt-8">
                     <button type="submit"
-                            class="inline-flex items-center gap-2 rounded-full bg-accent pl-6 pr-4 py-3 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
+                            class="inline-flex cursor-pointer items-center gap-2 rounded-full bg-accent py-3 pl-6 pr-4 font-dm-sans text-base font-semibold text-primary whitespace-nowrap">
                         <span>Submit Message</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
@@ -59,6 +130,13 @@
                                   clip-rule="evenodd" />
                         </svg>
                     </button>
+
+                    @if (TempData["ContactMessageSuccess"] is string successMessage)
+                    {
+                        <p class="absolute left-0 top-full mt-2 font-dm-sans text-base font-semibold text-accent">
+                            @successMessage
+                        </p>
+                    }
                 </div>
             </form>
         </div>
