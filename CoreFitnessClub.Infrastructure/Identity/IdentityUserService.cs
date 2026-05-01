@@ -1,4 +1,6 @@
 ﻿using CoreFitnessClub.Application.Abstractions;
+using CoreFitnessClub.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace CoreFitnessClub.Infrastructure.Identity;
@@ -8,15 +10,18 @@ public class IdentityUserService : IIdentityUserService
     private readonly UserManager<AppUser> _userManager;
     private readonly ICurrentUserService _currentUserService;
     private readonly IBookingRepository _bookingRepository;
+    private readonly CoreFitnessClubDbContext _dbContext;
 
     public IdentityUserService(
         UserManager<AppUser> userManager,
         ICurrentUserService currentUserService,
-        IBookingRepository bookingRepository)
+        IBookingRepository bookingRepository,
+        CoreFitnessClubDbContext dbContext)
     {
         _userManager = userManager;
         _currentUserService = currentUserService;
         _bookingRepository = bookingRepository;
+        _dbContext = dbContext;
     }
 
     public async Task<bool> DeleteCurrentUserAsync(CancellationToken cancellationToken = default)
@@ -26,7 +31,36 @@ public class IdentityUserService : IIdentityUserService
             return false;
         }
 
-        var user = await _userManager.FindByIdAsync(_currentUserService.UserId);
+        if (!_dbContext.Database.IsRelational())
+        {
+            return await DeleteCurrentUserDataAsync(cancellationToken);
+        }
+
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+        var deleted = await DeleteCurrentUserDataAsync(cancellationToken);
+
+        if (!deleted)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            return false;
+        }
+
+        await transaction.CommitAsync(cancellationToken);
+
+        return true;
+    }
+
+    private async Task<bool> DeleteCurrentUserDataAsync(CancellationToken cancellationToken)
+    {
+        var userId = _currentUserService.UserId;
+
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return false;
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
         {
