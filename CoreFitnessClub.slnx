@@ -3,4 +3,5 @@
   <Project Path="CoreFitnessClub.Domain/CoreFitnessClub.Domain.csproj" />
   <Project Path="CoreFitnessClub.Infrastructure/CoreFitnessClub.Infrastructure.csproj" />
   <Project Path="CoreFitnessClub.Presentation.Mvc/CoreFitnessClub.Presentation.Mvc.csproj" />
+  <Project Path="CoreFitnessClub.Tests/CoreFitnessClub.Tests.csproj" Id="0fea2ad9-c046-42e1-9d15-2d50bfd7ace4" />
 </Solution>
