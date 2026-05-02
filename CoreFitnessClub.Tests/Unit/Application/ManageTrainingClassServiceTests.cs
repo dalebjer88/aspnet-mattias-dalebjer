@@ -2,7 +2,6 @@
 using CoreFitnessClub.Application.Features.Classes;
 using CoreFitnessClub.Domain.Entities;
 using NSubstitute;
-using Xunit;
 
 namespace CoreFitnessClub.Tests.Unit.Application;
 

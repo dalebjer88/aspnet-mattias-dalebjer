@@ -3,7 +3,6 @@ using CoreFitnessClub.Application.Abstractions;
 using CoreFitnessClub.Application.Features.Memberships;
 using CoreFitnessClub.Domain.Entities;
 using NSubstitute;
-using Xunit;
 
 namespace CoreFitnessClub.Tests.Unit.Application;
 

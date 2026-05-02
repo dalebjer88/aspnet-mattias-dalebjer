@@ -1,6 +1,5 @@
 ﻿using CoreFitnessClub.Domain.Entities;
 using CoreFitnessClub.Domain.Exceptions;
-using Xunit;
 
 namespace CoreFitnessClub.Tests.Unit.Domain;
 
