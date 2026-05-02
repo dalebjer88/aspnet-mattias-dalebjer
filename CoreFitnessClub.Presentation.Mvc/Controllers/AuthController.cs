@@ -409,29 +409,12 @@ public class AuthController : Controller
         });
     }
 
-
-#if DEBUG
-    [HttpGet]
-    public IActionResult TestVerifyExternalLogin()
-    {
-        return View("VerifyExternalLogin", new VerifyExternalLoginViewModel
-        {
-            Email = "test@domain.com",
-            ReturnUrl = "/"
-        });
-    }
-
-#endif
-
-
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> VerifyExternalLogin(VerifyExternalLoginViewModel vm)
     {
         if (!ModelState.IsValid)
             return View("VerifyExternalLogin", vm);
       
-        // TODO: Validera koden mot databas/cache
-
         if(!string.Equals(vm.Code, "123456", StringComparison.Ordinal))
         {
             ModelState.AddModelError(nameof(vm.Code), "Invalid verification code.");

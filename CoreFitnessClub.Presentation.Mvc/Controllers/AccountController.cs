@@ -1,4 +1,5 @@
 ﻿using CoreFitnessClub.Application.Features.Account;
+using CoreFitnessClub.Application.Features.Bookings;
 using CoreFitnessClub.Application.Features.Memberships;
 using CoreFitnessClub.Infrastructure.Identity;
 using CoreFitnessClub.Presentation.Mvc.ViewModels.Account;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CoreFitnessClub.Application.Features.Bookings;
 
 namespace CoreFitnessClub.Presentation.Mvc.Controllers;
 
@@ -47,7 +47,6 @@ public class AccountController : Controller
         ViewData["ProfileImagePath"] = aboutMe.ProfileImagePath;
 
         var model = new AboutMeViewModel
-
         {
             Email = aboutMe.Email,
             FirstName = aboutMe.FirstName,
@@ -108,6 +107,7 @@ public class AccountController : Controller
 
             profileImagePath = $"/uploads/profile-images/{fileName}";
         }
+
         var request = new UpdateAboutMeRequest
         {
             FirstName = model.FirstName,
@@ -134,29 +134,29 @@ public class AccountController : Controller
         return View();
     }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAccountConfirmed()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteAccountConfirmed()
+    {
+        var aboutMe = await _accountService.GetAboutMeAsync();
+        var profileImagePath = aboutMe?.ProfileImagePath;
+
+        var deleted = await _accountService.DeleteAccountAsync();
+
+        if (!deleted)
         {
-            var aboutMe = await _accountService.GetAboutMeAsync();
-            var profileImagePath = aboutMe?.ProfileImagePath;
-
-            var deleted = await _accountService.DeleteAccountAsync();
-
-            if (!deleted)
-            {
-                TempData["DeleteAccountError"] = "Something went wrong while removing your account. Please try again.";
-                return RedirectToAction(nameof(DeleteAccount));
-            }
-
-            await _signInManager.SignOutAsync();
-
-            DeleteProfileImageFile(profileImagePath);
-
-            return RedirectToAction("Index", "Home");
+            TempData["DeleteAccountError"] = "Something went wrong while removing your account. Please try again.";
+            return RedirectToAction(nameof(DeleteAccount));
         }
 
-        [HttpGet]
+        await _signInManager.SignOutAsync();
+
+        DeleteProfileImageFile(profileImagePath);
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
     public async Task<IActionResult> MyMembership()
     {
         await SetAccountLayoutDataAsync("MyMembership", "My Membership");
@@ -192,10 +192,11 @@ public class AccountController : Controller
         }
 
         var bookings = await _bookingService.GetUserBookingsAsync(userId);
+
         return View(bookings);
     }
 
-        private async Task SetAccountLayoutDataAsync(string accountTab, string accountTitle)
+    private async Task SetAccountLayoutDataAsync(string accountTab, string accountTitle)
     {
         ViewData["AccountTab"] = accountTab;
         ViewData["AccountTitle"] = accountTitle;
@@ -203,6 +204,7 @@ public class AccountController : Controller
         var aboutMe = await _accountService.GetAboutMeAsync();
         ViewData["ProfileImagePath"] = aboutMe?.ProfileImagePath;
     }
+
     private void DeleteProfileImageFile(string? profileImagePath)
     {
         if (string.IsNullOrWhiteSpace(profileImagePath))
